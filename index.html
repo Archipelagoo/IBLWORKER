@@ -325,10 +325,11 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      padding: 10px;
+      padding: 12px;
       background: white;
       border-radius: 15px;
-      border: 1px solid #d1d5db;
+      min-height: 110px;
+      border: 1px solid #e2e8f0;
       gap: 10px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       transition: all 0.3s;
@@ -344,19 +345,18 @@
       border: 2px solid #ff69b4;
     }
 
-    /* KOLOM KIRI - Lebar Tetap 80px */
+    /* KOLOM KIRI - Foto & Nama */
     .left-col {
-      width: 80px;
-      flex-shrink: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 6px;
+      width: 90px;
+      flex-shrink: 0;
     }
 
     .worker-avatar {
-      width: 65px;
-      height: 65px;
+      width: 65px !important;
+      height: 65px !important;
       border-radius: 50%;
       object-fit: cover;
       border: 2px solid #667eea;
@@ -364,35 +364,36 @@
 
     .worker-fullname {
       font-size: 10px;
-      font-weight: bold;
+      font-weight: 800;
       text-align: center;
-      color: #333;
-      line-height: 1.2;
-      word-break: break-word;
+      text-transform: uppercase;
+      margin-top: 6px;
+      line-height: 1.1;
       width: 100%;
+      color: #333;
       font-family: 'Poppins', sans-serif;
     }
 
-    /* KOLOM KANAN - Flex Grow */
+    /* KOLOM KANAN - Grup Tombol */
     .right-col {
-      flex: 1;
       display: flex;
       flex-direction: column;
       gap: 5px;
+      flex-grow: 1;
     }
 
     .status-box {
-      width: 100%;
-      background: #f3f4f6;
-      padding: 5px;
+      background: #f1f5f9;
+      padding: 4px;
       border-radius: 6px;
       text-align: center;
+      margin-bottom: 2px;
     }
 
     .status-text {
       font-size: 9px;
       font-weight: 700;
-      color: #374151;
+      color: #334155;
       line-height: 1.2;
       font-family: 'Poppins', sans-serif;
     }
@@ -401,14 +402,13 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 4px;
-      width: 100%;
     }
 
     .status-action-btn {
-      font-size: 8px;
-      padding: 10px 8px;
-      border-radius: 8px;
-      min-height: 32px;
+      font-size: 8px !important;
+      padding: 6px 2px;
+      border-radius: 6px;
+      min-height: 24px;
       font-weight: 700;
       border: none;
       cursor: pointer;
@@ -571,6 +571,17 @@
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* MODAL */
@@ -1015,18 +1026,20 @@
        </svg> Script </button>
      </div>
     </div><!-- Baris Kedua: Search & Counter -->
-    <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px; flex-wrap: wrap;"><!-- Search Bar -->
-     <div style="flex: 1; min-width: 250px; position: relative;">
-      <svg width="20" height="20" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.7;"><circle cx="11" cy="11" r="8" stroke="white" stroke-width="2" /> <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="white" stroke-width="2" stroke-linecap="round" />
-      </svg><input type="text" id="searchInput" placeholder="Cari nama pekerja..." oninput="performSearch()" style="width: 100%; padding: 14px 14px 14px 50px; background: rgba(255, 255, 255, 0.15); border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 12px; color: white; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 500; outline: none; transition: all 0.3s; backdrop-filter: blur(10px);" onfocus="this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.5)';" onblur="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.3)';">
-     </div><!-- Counter -->
-     <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 12px 24px; display: flex; gap: 20px; align-items: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
-      <div style="display: flex; align-items: center; gap: 10px;">
-       <div style="width: 18px; height: 18px; background: #22c55e; border-radius: 50%; box-shadow: 0 2px 6px rgba(34, 197, 94, 0.4);"></div><span id="counter-selected" style="font-size: 20px; font-weight: 700; color: #1f2937; font-family: 'Poppins', sans-serif;">0</span>
-      </div>
-      <div style="width: 2px; height: 24px; background: #e5e7eb;"></div>
-      <div style="display: flex; align-items: center; gap: 10px;">
-       <div style="width: 18px; height: 18px; background: #ef4444; border-radius: 50%; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);"></div><span id="counter-unselected" style="font-size: 20px; font-weight: 700; color: #1f2937; font-family: 'Poppins', sans-serif;">0</span>
+    <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px; flex-wrap: nowrap;"><!-- Search Bar -->
+     <div style="flex: 1; min-width: 250px; position: relative;"><!-- Search Icon (Left) -->
+      <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.6;"><circle cx="11" cy="11" r="8" stroke="#94a3b8" stroke-width="2" /> <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" />
+      </svg><!-- Input Field --> <input type="text" id="searchInput" placeholder="Cari nama pekerja..." oninput="performSearch()" style="width: 100%; padding: 12px 45px 12px 45px; background: rgba(30, 41, 59, 0.5); border: 2px solid #475569; border-radius: 12px; color: white; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 400; outline: none; transition: all 0.3s; backdrop-filter: blur(10px);" onfocus="this.style.background='rgba(30, 41, 59, 0.7)'; this.style.borderColor='#64748b';" onblur="this.style.background='rgba(30, 41, 59, 0.5)'; this.style.borderColor='#475569';"> <!-- Clear Button (Right) - Only shows when there's text -->
+      <svg id="clearSearchBtn" width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onclick="clearSearch()" style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); cursor: pointer; opacity: 0; pointer-events: none; transition: opacity 0.2s;"><circle cx="12" cy="12" r="10" fill="#94a3b8" /> <path d="M15 9L9 15M9 9L15 15" stroke="white" stroke-width="2" stroke-linecap="round" />
+      </svg>
+     </div><!-- Counter Box -->
+     <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 10px 20px; display: flex; gap: 15px; align-items: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); flex-shrink: 0;"><!-- Green Indicator -->
+      <div style="display: flex; align-items: center; gap: 8px;">
+       <div style="width: 12px; height: 12px; background: #22c55e; border-radius: 50%; box-shadow: 0 2px 6px rgba(34, 197, 94, 0.4);"></div><span id="counter-selected" style="font-size: 12px; font-weight: 700; color: #1f2937; font-family: 'Poppins', sans-serif;">0</span>
+      </div><!-- Divider -->
+      <div style="width: 1px; height: 20px; background: #e5e7eb;"></div><!-- Red Indicator -->
+      <div style="display: flex; align-items: center; gap: 8px;">
+       <div style="width: 12px; height: 12px; background: #ef4444; border-radius: 50%; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);"></div><span id="counter-unselected" style="font-size: 12px; font-weight: 700; color: #1f2937; font-family: 'Poppins', sans-serif;">0</span>
       </div>
      </div>
     </div><!-- Workers Grid -->
@@ -1078,14 +1091,14 @@
      </div><span class="modal-close" onclick="closeSetupModal()">×</span>
     </div>
     <div class="info-block">
-     <h4>📋 Langkah-langkah Setup:</h4>
+     <h4>���� Langkah-langkah Setup:</h4>
      <ol>
       <li>Buka Google Spreadsheet Anda: <a href="https://docs.google.com/spreadsheets/d/1FllBcwBjTr_jfPylhyWwHt6ZE16j6fJpSa0C9hYEw44/edit" target="_blank" rel="noopener noreferrer">Klik di sini</a></li>
       <li>Klik menu <strong>Extensions → Apps Script</strong></li>
       <li>Hapus semua kode yang ada (jika ada)</li>
       <li>Copy kode di bawah ini dan paste ke Apps Script Editor</li>
       <li>Klik tombol <strong>Save</strong> (ikon disk)</li>
-      <li>Klik <strong>Deploy → Manage deployments</strong></li>
+      <li>Klik <strong>Deploy �� Manage deployments</strong></li>
       <li>Klik <strong>✏️ Edit</strong> (ikon pensil)</li>
       <li>Ubah <strong>Version: New version</strong></li>
       <li>Klik <strong>Deploy</strong></li>
@@ -2006,6 +2019,16 @@ function doGet(e) {
     function performSearch() {
       const searchTerm = document.getElementById('searchInput').value.toLowerCase();
       const items = document.querySelectorAll('.worker-item');
+      const clearBtn = document.getElementById('clearSearchBtn');
+
+      // Show/hide clear button based on input
+      if (searchTerm.length > 0) {
+        clearBtn.style.opacity = '1';
+        clearBtn.style.pointerEvents = 'auto';
+      } else {
+        clearBtn.style.opacity = '0';
+        clearBtn.style.pointerEvents = 'none';
+      }
 
       items.forEach(item => {
         const name = item.querySelector('.worker-fullname').textContent.toLowerCase();
@@ -2014,6 +2037,21 @@ function doGet(e) {
         } else {
           item.style.display = 'none';
         }
+      });
+    }
+
+    function clearSearch() {
+      const searchInput = document.getElementById('searchInput');
+      const clearBtn = document.getElementById('clearSearchBtn');
+      
+      searchInput.value = '';
+      clearBtn.style.opacity = '0';
+      clearBtn.style.pointerEvents = 'none';
+      
+      // Show all workers
+      const items = document.querySelectorAll('.worker-item');
+      items.forEach(item => {
+        item.style.display = 'grid';
       });
     }
 
@@ -2240,7 +2278,7 @@ function doGet(e) {
       testResult.style.display = 'block';
       testResult.style.background = '#2196F3';
       testResult.style.color = 'white';
-      testResult.innerHTML = '🔄 Testing connection...';
+      testResult.innerHTML = '�� Testing connection...';
 
       try {
         const response = await fetch(url + '?action=workers');
@@ -2255,7 +2293,7 @@ function doGet(e) {
         } else {
           testResult.style.background = '#ff9800';
           testResult.innerHTML = `
-            <div style="font-weight: bold; margin-bottom: 10px;">���️ Koneksi Berhasil, Tapi...</div>
+            <div style="font-weight: bold; margin-bottom: 10px;">������ Koneksi Berhasil, Tapi...</div>
             <div>${result.message || 'Tidak ada data pekerja'}</div>
           `;
         }
@@ -2627,5 +2665,5 @@ function doGet(e) {
 
     document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba0b3c72768d210',t:'MTc2Nzc2MDA0Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba0c880e2c3ea87',t:'MTc2Nzc2MDg5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
