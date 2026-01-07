@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Absen Archipelago</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&amp;display=swap" rel="stylesheet">
   <script src="/_sdk/data_sdk.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
@@ -216,13 +217,6 @@
     }
 
     /* ACTION BUTTONS ROW */
-    .action-buttons-row {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-    }
-
     .action-button {
       padding: 14px 28px;
       background: white;
@@ -257,13 +251,6 @@
     }
 
     /* CONTROL BUTTONS */
-    .control-buttons-row {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 25px;
-      flex-wrap: wrap;
-    }
-
     .control-button {
       padding: 14px 28px;
       background: #4CAF50;
@@ -291,23 +278,6 @@
 
     .control-button.reset-style:hover {
       background: #da190b;
-    }
-
-    /* SEARCH BOX */
-    .search-container {
-      margin-bottom: 25px;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 14px 14px 14px 50px;
-      border: 2px solid #e0e0e0;
-      border-radius: 12px;
-      font-size: 16px;
-      background: white;
-      background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22%3E%3Ccircle cx=%2211%22 cy=%2211%22 r=%228%22 stroke=%22%23999%22 stroke-width=%222%22/%3E%3Cline x1=%2221%22 y1=%2221%22 x2=%2216.65%22 y2=%2216.65%22 stroke=%22%23999%22 stroke-width=%222%22 stroke-linecap=%22round%22/%3E%3C/svg%3E');
-      background-repeat: no-repeat;
-      background-position: 15px center;
     }
 
     /* WORKERS GRID - FULL WIDTH EXPANDABLE */
@@ -447,51 +417,6 @@
 
     .status-action-btn.selected {
       box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
-    }
-
-    /* PHOTO UPLOAD SECTION */
-    .photo-upload-section {
-      background: white;
-      padding: 25px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-      margin-bottom: 30px;
-    }
-
-    .photo-upload-section h3 {
-      margin-top: 0;
-      color: #333;
-      font-size: 20px;
-      margin-bottom: 15px;
-    }
-
-    .photo-file-input {
-      display: none;
-    }
-
-    .photo-upload-button {
-      display: inline-block;
-      padding: 14px 28px;
-      background: #667eea;
-      color: white;
-      border-radius: 12px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 16px;
-      transition: all 0.3s;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .photo-upload-button:hover {
-      background: #5568d3;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
-    }
-
-    .photo-preview-area {
-      margin-top: 15px;
     }
 
     /* SUBMIT SECTION */
@@ -973,7 +898,6 @@
     }
   </style>
   <style>@view-transition { navigation: auto; }</style>
-  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
  </head>
  <body class="h-full"><!-- Loading Overlay -->
   <div id="loadingScreen" class="loading-screen">
@@ -1043,38 +967,16 @@
       </div>
      </div>
     </div><!-- Workers Grid -->
-    <div class="workers-full-grid" id="workersGrid"></div><!-- Photo Upload -->
-    <div class="photo-upload-section">
-     <h3>📸 Ambil Foto Absen</h3>
-     <div style="display: flex; gap: 10px; flex-wrap: wrap;"><button class="photo-upload-button" onclick="openCameraModal()">
-       <svg width="20" height="20" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="16" rx="2" stroke="white" stroke-width="2" /> <circle cx="12" cy="13" r="3" stroke="white" stroke-width="2" /> <path d="M7 5L8.5 3H15.5L17 5" stroke="white" stroke-width="2" stroke-linecap="round" />
-       </svg> Ambil Foto </button> <label for="photoFileInput" class="photo-upload-button" style="background: #2196F3; cursor: pointer;">
-       <svg width="20" height="20" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.7893 3 20.5304 3 19V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <path d="M17 8L12 3L7 8" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <path d="M12 3V15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-       </svg> Upload File </label>
-     </div><input type="file" id="photoFileInput" class="photo-file-input" accept="image/*">
-     <div id="photoPreview" class="photo-preview-area"></div>
-    </div><!-- Camera Modal -->
-    <div id="cameraModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; overflow-y: auto;">
-     <div style="min-height: 100%; display: flex; flex-direction: column; align-items: center; padding: 20px;">
-      <div style="width: 100%; max-width: 800px; background: white; border-radius: 15px; overflow: hidden;">
-       <div style="background: #1a3a5c; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
-        <h3 style="color: white; margin: 0; font-size: 20px;">📸 Ambil Foto Absen</h3><button onclick="closeCameraModal()" style="background: transparent; border: none; color: white; font-size: 28px; cursor: pointer; line-height: 1;">×</button>
-       </div>
-       <div style="padding: 20px;">
-        <div id="cameraStatus" style="text-align: center; padding: 20px; background: #e3f2fd; border-radius: 10px; margin-bottom: 15px; font-weight: 600; color: #1976D2;">
-         🔄 Memulai kamera...
-        </div>
-        <div style="position: relative; width: 100%; background: #000; border-radius: 12px; overflow: hidden; margin-bottom: 15px;">
-         <video id="cameraVideo" autoplay playsinline style="width: 100%; display: block; min-height: 300px;"></video>
-         <canvas id="cameraCanvas" style="display: none;"></canvas>
-        </div>
-        <div style="display: flex; gap: 10px; justify-content: center;"><button id="captureBtn" onclick="capturePhoto()" style="padding: 15px 40px; background: #4CAF50; color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: all 0.3s;">
-          <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" /> <circle cx="12" cy="12" r="6" fill="white" />
-          </svg> Ambil Foto </button> <button onclick="closeCameraModal()" style="padding: 15px 30px; background: #666; color: white; border: none; border-radius: 12px; font-size: 18px; font-weight: bold; cursor: pointer; transition: all 0.3s;"> Batal </button>
-        </div>
-       </div>
-      </div>
-     </div>
+    <div class="workers-full-grid" id="workersGrid"></div><!-- ========== CARD UPLOAD FOTO (IDENTIK WEBSITE A) ========== -->
+    <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-3 shadow-lg" style="margin-bottom: 25px;"><!-- Header -->
+     <h3 class="text-slate-300 text-sm font-semibold mb-3">📷 Upload foto absen</h3><!-- Tombol Upload Custom --> <input type="file" id="photoFileInput" accept="image/*" capture="environment" onchange="handlePhotoSelect(event)" class="hidden"> <label for="photoFileInput" class="w-full py-2 bg-slate-700/70 hover:bg-slate-600 border border-slate-600 text-white rounded-lg flex items-center justify-center gap-2 font-medium text-sm transition-all cursor-pointer"> <!-- Ikon Kamera SVG -->
+      <svg class="text-slate-300" width="20" height="20" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" /> <circle cx="12" cy="13" r="3" stroke="currentColor" stroke-width="2" /> <path d="M7 5L8.5 3H15.5L17 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg> Ambil Foto </label> <!-- Indikator Lokasi -->
+     <div class="mt-2 text-xs text-slate-400 flex items-center gap-1"><!-- Ikon Pin Lokasi SVG -->
+      <svg width="14" height="14" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="currentColor" />
+      </svg><span id="locationStatus">Mengambil lokasi...</span>
+     </div><!-- Preview Area -->
+     <div id="photoPreviewArea" class="mt-3"></div>
     </div><!-- Submit -->
     <div class="submit-container"><button class="submit-main-btn" id="submitButton" onclick="performSubmit()">
       <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -1091,15 +993,15 @@
      </div><span class="modal-close" onclick="closeSetupModal()">×</span>
     </div>
     <div class="info-block">
-     <h4>���� Langkah-langkah Setup:</h4>
+     <h4>📋 Langkah-langkah Setup:</h4>
      <ol>
       <li>Buka Google Spreadsheet Anda: <a href="https://docs.google.com/spreadsheets/d/1FllBcwBjTr_jfPylhyWwHt6ZE16j6fJpSa0C9hYEw44/edit" target="_blank" rel="noopener noreferrer">Klik di sini</a></li>
       <li>Klik menu <strong>Extensions → Apps Script</strong></li>
       <li>Hapus semua kode yang ada (jika ada)</li>
       <li>Copy kode di bawah ini dan paste ke Apps Script Editor</li>
       <li>Klik tombol <strong>Save</strong> (ikon disk)</li>
-      <li>Klik <strong>Deploy �� Manage deployments</strong></li>
-      <li>Klik <strong>✏️ Edit</strong> (ikon pensil)</li>
+      <li>Klik <strong>Deploy → Manage deployments</strong></li>
+      <li>Klik <strong>⚙️ Edit</strong> (ikon pensil)</li>
       <li>Ubah <strong>Version: New version</strong></li>
       <li>Klik <strong>Deploy</strong></li>
      </ol>
@@ -1431,8 +1333,7 @@ function doGet(e) {
     const VALID_USERNAME = "archipelago";
     const VALID_PASSWORD = "balivibes";
 
-    let cameraStream = null;
-    let cachedAddress = "Memuat lokasi...";
+    let cachedAddress = "Mengambil lokasi...";
     let userLatitude = null;
     let userLongitude = null;
 
@@ -1513,7 +1414,6 @@ function doGet(e) {
       setInterval(updateAllDateTime, 1000);
 
       document.getElementById('loginForm').addEventListener('submit', handleLoginSubmit);
-      document.getElementById('photoFileInput').addEventListener('change', handlePhotoChange);
     }
 
     // ============ GPS & LOCATION FUNCTIONS ============
@@ -1525,16 +1425,17 @@ function doGet(e) {
             userLongitude = position.coords.longitude;
             console.log('📍 Location:', userLatitude, userLongitude);
             
-            // Get address from coordinates
             await getAddressFromCoordinates(userLatitude, userLongitude);
           },
           (error) => {
             console.error('❌ GPS Error:', error);
             cachedAddress = "Lokasi tidak tersedia";
+            document.getElementById('locationStatus').textContent = cachedAddress;
           }
         );
       } else {
         cachedAddress = "GPS tidak didukung";
+        document.getElementById('locationStatus').textContent = cachedAddress;
       }
     }
 
@@ -1550,95 +1451,71 @@ function doGet(e) {
         if (data && data.display_name) {
           cachedAddress = data.display_name;
           console.log('📍 Address:', cachedAddress);
+          document.getElementById('locationStatus').textContent = cachedAddress;
         } else {
           cachedAddress = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+          document.getElementById('locationStatus').textContent = cachedAddress;
         }
       } catch (error) {
         console.error('❌ Reverse geocoding error:', error);
         cachedAddress = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+        document.getElementById('locationStatus').textContent = cachedAddress;
       }
     }
 
-    // ============ CAMERA FUNCTIONS ============
-    async function openCameraModal() {
-      document.getElementById('cameraModal').style.display = 'block';
-      const statusDiv = document.getElementById('cameraStatus');
-      const captureBtn = document.getElementById('captureBtn');
+    // ============ PHOTO UPLOAD FUNCTIONS ============
+    async function handlePhotoSelect(event) {
+      const file = event.target.files[0];
+      if (!file) return;
       
-      statusDiv.textContent = '🔄 Memulai kamera...';
-      statusDiv.style.background = '#e3f2fd';
-      statusDiv.style.color = '#1976D2';
-      captureBtn.disabled = true;
+      console.log('📷 Photo selected:', file.name);
       
-      try {
-        const constraints = {
-          video: {
-            facingMode: 'environment',
-            width: { ideal: 1920 },
-            height: { ideal: 1080 }
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const img = new Image();
+        img.onload = async () => {
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          
+          const targetWidth = 1920;
+          const targetHeight = 1080;
+          const videoAspect = img.width / img.height;
+          
+          if (videoAspect > targetWidth / targetHeight) {
+            canvas.width = targetWidth;
+            canvas.height = targetWidth / videoAspect;
+          } else {
+            canvas.height = targetHeight;
+            canvas.width = targetHeight * videoAspect;
           }
+          
+          if (canvas.width < targetWidth || canvas.height < targetHeight) {
+            canvas.width = targetWidth;
+            canvas.height = targetHeight;
+          }
+          
+          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+          
+          await addTimemark(canvas, ctx);
+          
+          let photoDataUrl = canvas.toDataURL('image/jpeg', 0.9);
+          
+          photoDataUrl = await compressImageForUpload(photoDataUrl);
+          
+          uploadedPhoto = photoDataUrl;
+          
+          document.getElementById('photoPreviewArea').innerHTML = `
+            <div class="mt-3 text-center">
+              <p class="text-green-400 font-semibold mb-2">✅ Foto berhasil diambil!</p>
+              <img src="${photoDataUrl}" class="max-w-full rounded-lg shadow-lg mx-auto" style="max-width: 300px;">
+            </div>
+          `;
+          
+          showNotification('✅ Foto berhasil diambil dengan timemark!', '#4CAF50');
         };
-        
-        cameraStream = await navigator.mediaDevices.getUserMedia(constraints);
-        const video = document.getElementById('cameraVideo');
-        video.srcObject = cameraStream;
-        
-        statusDiv.textContent = '✅ Kamera siap! Arahkan ke objek dan tekan tombol ambil foto.';
-        statusDiv.style.background = '#e8f5e9';
-        statusDiv.style.color = '#2e7d32';
-        captureBtn.disabled = false;
-        
-      } catch (error) {
-        console.error('❌ Camera error:', error);
-        statusDiv.textContent = '❌ Gagal mengakses kamera. Pastikan izin kamera telah diberikan.';
-        statusDiv.style.background = '#ffebee';
-        statusDiv.style.color = '#c62828';
-        captureBtn.disabled = true;
-      }
-    }
-
-    function closeCameraModal() {
-      if (cameraStream) {
-        cameraStream.getTracks().forEach(track => track.stop());
-        cameraStream = null;
-      }
-      document.getElementById('cameraModal').style.display = 'none';
-      const video = document.getElementById('cameraVideo');
-      video.srcObject = null;
-    }
-
-    async function capturePhoto() {
-      const video = document.getElementById('cameraVideo');
-      const canvas = document.getElementById('cameraCanvas');
-      const context = canvas.getContext('2d');
-      
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
-      // Add timemark overlay
-      await addTimemark(canvas, context);
-      
-      // Convert to base64
-      let photoDataUrl = canvas.toDataURL('image/jpeg', 0.9);
-      
-      // Compress image
-      photoDataUrl = await compressImageForUpload(photoDataUrl);
-      
-      uploadedPhoto = photoDataUrl;
-      
-      // Show preview
-      document.getElementById('photoPreview').innerHTML = `
-        <div style="margin-top: 15px; text-align: center;">
-          <p style="color: #4CAF50; font-weight: bold; margin-bottom: 10px;">✅ Foto berhasil diambil!</p>
-          <img src="${photoDataUrl}" style="max-width: 300px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.2);">
-        </div>
-      `;
-      
-      closeCameraModal();
-      
-      showNotification('✅ Foto berhasil diambil dengan timemark!', '#4CAF50');
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
     }
 
     async function addTimemark(canvas, ctx) {
@@ -1646,66 +1523,76 @@ function doGet(e) {
       const width = canvas.width;
       const height = canvas.height;
       
-      // Load logo
       const logo = new Image();
-      logo.src = 'https://lh3.googleusercontent.com/d/10un5eCNXYwHkgznim3T4lRMwICFWQ8Bw';
+      logo.crossOrigin = 'anonymous';
+      logo.src = 'https://drive.google.com/thumbnail?id=1zaavYZSem-yNHztE724qeIAWw9uGJgen&sz=w400';
       
       await new Promise((resolve) => {
         logo.onload = resolve;
-        logo.onerror = resolve; // Continue even if logo fails to load
+        logo.onerror = resolve;
       });
       
-      // === POJOK KANAN ATAS: Verification Badge ===
+      // POJOK KANAN ATAS: Watermark Brand
+      const brandTextX = width - 20;
+      const brandTextY = 30;
+      
       ctx.save();
-      ctx.font = 'bold 18px Arial';
-      ctx.fillStyle = 'rgba(76, 175, 80, 0.9)';
-      ctx.fillRect(width - 250, 20, 230, 50);
+      ctx.textAlign = 'right';
+      
+      ctx.font = 'bold 28px Poppins, Arial';
+      ctx.fillStyle = '#ffcc00';
+      const timeText = 'Time';
+      ctx.fillText(timeText, brandTextX, brandTextY);
+      
+      const timeWidth = ctx.measureText(timeText).width;
       ctx.fillStyle = 'white';
-      ctx.textAlign = 'center';
-      ctx.fillText('100% photo verified', width - 135, 50);
+      ctx.fillText('mark', brandTextX - timeWidth, brandTextY);
+      
+      ctx.font = 'bold 16px Poppins, Arial';
+      ctx.fillStyle = 'rgba(76, 175, 80, 0.95)';
+      ctx.fillText('100% photo verified', brandTextX, brandTextY + 28);
       ctx.restore();
       
-      // === POJOK KIRI BAWAH: Main Info Panel ===
+      // POJOK KIRI BAWAH: Panel Utama
       const panelX = 20;
-      const panelY = height - 180;
-      const panelWidth = 450;
-      const panelHeight = 160;
+      const panelY = height - 200;
+      const panelWidth = 500;
+      const panelHeight = 180;
       
-      // Semi-transparent background
       ctx.save();
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.75)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.80)';
       ctx.fillRect(panelX, panelY, panelWidth, panelHeight);
       ctx.restore();
       
-      // === LOGO BOX (Atas Jam) ===
-      const logoBoxX = panelX + 15;
-      const logoBoxY = panelY + 10;
-      const logoBoxSize = 50;
+      // LOGO
+      const logoSize = 60;
+      const logoX = panelX + 15;
+      const logoY = panelY + 15;
       
       ctx.save();
       ctx.fillStyle = 'white';
       ctx.beginPath();
-      ctx.roundRect(logoBoxX, logoBoxY, logoBoxSize, logoBoxSize, 8);
+      ctx.roundRect(logoX, logoY, logoSize, logoSize, 8);
       ctx.fill();
       
       if (logo.complete && logo.width > 0) {
-        ctx.drawImage(logo, logoBoxX + 5, logoBoxY + 5, logoBoxSize - 10, logoBoxSize - 10);
+        ctx.drawImage(logo, logoX + 5, logoY + 5, logoSize - 10, logoSize - 10);
       }
       ctx.restore();
       
-      // === JAM BESAR ===
+      // JAM BESAR
       const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
       ctx.save();
-      ctx.font = 'bold 48px Bebas Neue, Arial Black, sans-serif';
+      ctx.font = 'bold 72px "Bebas Neue", "Arial Black", Impact, sans-serif';
       ctx.fillStyle = 'white';
       ctx.textAlign = 'left';
-      ctx.fillText(timeStr, logoBoxX, logoBoxY + logoBoxSize + 45);
+      ctx.fillText(timeStr, logoX, logoY + logoSize + 65);
       ctx.restore();
       
-      // === GARIS KUNING VERTIKAL ===
-      const lineX = logoBoxX + 130;
-      const lineY = logoBoxY + logoBoxSize + 5;
-      const lineHeight = 55;
+      // GARIS KUNING VERTIKAL
+      const lineX = logoX + 165;
+      const lineY = logoY + logoSize + 10;
+      const lineHeight = 70;
       
       ctx.save();
       ctx.strokeStyle = '#ffcc00';
@@ -1716,9 +1603,9 @@ function doGet(e) {
       ctx.stroke();
       ctx.restore();
       
-      // === DETAIL TANGGAL (Di Samping Garis) ===
-      const dateX = lineX + 20;
-      const dateY = lineY + 5;
+      // INFO TANGGAL
+      const dateX = lineX + 25;
+      const dateY = lineY + 10;
       
       const dayName = now.toLocaleDateString('id-ID', { weekday: 'long' });
       const date = now.getDate();
@@ -1726,44 +1613,29 @@ function doGet(e) {
       const year = now.getFullYear();
       
       ctx.save();
-      ctx.font = 'bold 14px Arial';
+      ctx.font = 'bold 18px Poppins, Arial';
       ctx.fillStyle = 'white';
       ctx.textAlign = 'left';
-      ctx.fillText(dayName.toUpperCase(), dateX, dateY + 15);
-      ctx.fillText(`${date} ${monthName}`, dateX, dateY + 32);
-      ctx.fillText(`${year}`, dateX, dateY + 49);
+      ctx.fillText(dayName.toUpperCase(), dateX, dateY + 18);
+      ctx.fillText(`${date} ${monthName}`, dateX, dateY + 40);
+      ctx.fillText(`${year}`, dateX, dateY + 62);
       ctx.restore();
       
-      // === BRAND NAME (Time + mark) ===
-      const brandX = logoBoxX + 135;
-      const brandY = logoBoxY + 25;
-      
-      ctx.save();
-      ctx.font = 'bold 16px Arial';
-      ctx.textAlign = 'left';
-      ctx.fillStyle = '#ffcc00';
-      ctx.fillText('Time', brandX, brandY);
-      
-      const timeWidth = ctx.measureText('Time').width;
-      ctx.fillStyle = 'white';
-      ctx.fillText('mark', brandX + timeWidth, brandY);
-      ctx.restore();
-      
-      // === ALAMAT LOKASI (Paling Bawah) ===
+      // ALAMAT LOKASI
       const addressX = panelX + 15;
-      const addressY = panelY + panelHeight - 30;
+      const addressY = panelY + panelHeight - 40;
+      const maxAddressWidth = panelWidth - 30;
       
       ctx.save();
-      ctx.font = '12px Arial';
+      ctx.font = '14px Poppins, Arial';
       ctx.fillStyle = '#ffcc00';
       ctx.textAlign = 'left';
       
-      // Wrap address text if too long
-      const maxWidth = panelWidth - 30;
-      const addressLines = wrapText(ctx, `📍 ${cachedAddress}`, maxWidth);
+      const fullAddress = `📍 ${cachedAddress}`;
+      const addressLines = wrapText(ctx, fullAddress, maxAddressWidth);
       
       addressLines.forEach((line, index) => {
-        ctx.fillText(line, addressX, addressY + (index * 16));
+        ctx.fillText(line, addressX, addressY + (index * 18));
       });
       
       ctx.restore();
@@ -1787,7 +1659,7 @@ function doGet(e) {
       }
       lines.push(currentLine);
       
-      return lines.slice(0, 2); // Max 2 lines
+      return lines.slice(0, 2);
     }
 
     async function compressImageForUpload(base64Image) {
@@ -1882,25 +1754,23 @@ function doGet(e) {
       errorDiv.textContent = '';
 
       if (username === VALID_USERNAME && password === VALID_PASSWORD) {
-        userLoggedIn = true;
-        
         document.getElementById('loginPage').style.display = 'none';
         const mainApp = document.getElementById('mainApp');
         mainApp.style.display = 'block';
         mainApp.classList.add('active');
+        userLoggedIn = true;
         
-        document.getElementById('loadingScreen').style.display = 'flex';
-        
-        await Promise.all([
+        Promise.all([
           fetchWorkersFromSheet(),
           fetchRecapData()
-        ]);
+        ]).then(() => {
+          if (workersData.length > 0) {
+            showNotification(`⚡ ${workersData.length} pekerja dimuat!`, '#4CAF50');
+          }
+        }).catch(error => {
+          console.error('❌ Error:', error);
+        });
         
-        document.getElementById('loadingScreen').style.display = 'none';
-        
-        if (workersData.length > 0) {
-          showNotification(`✅ Berhasil! ${workersData.length} pekerja dimuat`, '#4CAF50');
-        }
       } else {
         errorDiv.textContent = 'Username atau password salah!';
       }
@@ -1926,7 +1796,7 @@ function doGet(e) {
       grid.innerHTML = '';
 
       if (workersData.length === 0) {
-        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: white; background: rgba(255,255,255,0.1); border-radius: 15px;">Belum ada data pekerja. Silakan setup Web App URL terlebih dahulu.</div>';
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: white; background: rgba(255,255,255,0.1); border-radius: 15px;">⏳ Memuat data pekerja...</div>';
         return;
       }
 
@@ -1982,11 +1852,9 @@ function doGet(e) {
     }
 
     function assignStatus(workerName, status, workerPhoto) {
-      // Jika status yang diklik sama dengan status yang sudah dipilih, maka unclick (reset)
       if (statusesMap[workerName]?.status === status) {
         statusesMap[workerName] = null;
       } else {
-        // Jika berbeda atau belum ada status, set status baru
         statusesMap[workerName] = { status, photo: workerPhoto };
       }
       
@@ -2010,8 +1878,7 @@ function doGet(e) {
         statusesMap[worker.name] = null;
       });
       uploadedPhoto = null;
-      document.getElementById('photoFileInput').value = '';
-      document.getElementById('photoPreview').innerHTML = '';
+      document.getElementById('photoPreviewArea').innerHTML = '';
       renderWorkersGrid();
       updateCounter();
     }
@@ -2021,7 +1888,6 @@ function doGet(e) {
       const items = document.querySelectorAll('.worker-item');
       const clearBtn = document.getElementById('clearSearchBtn');
 
-      // Show/hide clear button based on input
       if (searchTerm.length > 0) {
         clearBtn.style.opacity = '1';
         clearBtn.style.pointerEvents = 'auto';
@@ -2048,25 +1914,10 @@ function doGet(e) {
       clearBtn.style.opacity = '0';
       clearBtn.style.pointerEvents = 'none';
       
-      // Show all workers
       const items = document.querySelectorAll('.worker-item');
       items.forEach(item => {
         item.style.display = 'grid';
       });
-    }
-
-    function handlePhotoChange(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          uploadedPhoto = event.target.result;
-          document.getElementById('photoPreview').innerHTML = `
-            <img src="${uploadedPhoto}" style="max-width: 200px; border-radius: 10px; margin-top: 10px;">
-          `;
-        };
-        reader.readAsDataURL(file);
-      }
     }
 
     async function performSubmit() {
@@ -2278,7 +2129,7 @@ function doGet(e) {
       testResult.style.display = 'block';
       testResult.style.background = '#2196F3';
       testResult.style.color = 'white';
-      testResult.innerHTML = '�� Testing connection...';
+      testResult.innerHTML = '🔄 Testing connection...';
 
       try {
         const response = await fetch(url + '?action=workers');
@@ -2293,14 +2144,14 @@ function doGet(e) {
         } else {
           testResult.style.background = '#ff9800';
           testResult.innerHTML = `
-            <div style="font-weight: bold; margin-bottom: 10px;">������ Koneksi Berhasil, Tapi...</div>
+            <div style="font-weight: bold; margin-bottom: 10px;">⚠️ Koneksi Berhasil, Tapi...</div>
             <div>${result.message || 'Tidak ada data pekerja'}</div>
           `;
         }
       } catch (error) {
         testResult.style.background = '#f44336';
         testResult.innerHTML = `
-          <div style="font-weight: bold; margin-bottom: 10px;">�� Koneksi Gagal!</div>
+          <div style="font-weight: bold; margin-bottom: 10px;">❌ Koneksi Gagal!</div>
           <div>${error.message}</div>
         `;
       }
@@ -2473,7 +2324,7 @@ function doGet(e) {
             const cellDate = cellDateFormatted.toLowerCase().trim();
             const targetDate = filterDate.toLowerCase().trim();
             
-            console.log(`������ Comparing: "${cellDate}" vs "${targetDate}"`);
+            console.log(`🔄 Comparing: "${cellDate}" vs "${targetDate}"`);
             
             if (cellDate === targetDate) {
               columnsToShow.push(col);
@@ -2661,9 +2512,31 @@ function doGet(e) {
       if (event.target === modal) {
         closeSetupModal();
       }
-    }
+    };
+
+    // Assign global functions
+    window.assignStatus = assignStatus;
+    window.setAllPresent = setAllPresent;
+    window.resetAllData = resetAllData;
+    window.performSearch = performSearch;
+    window.clearSearch = clearSearch;
+    window.performSubmit = performSubmit;
+    window.handlePhotoSelect = handlePhotoSelect;
+    window.openSetupModal = openSetupModal;
+    window.closeSetupModal = closeSetupModal;
+    window.copyScriptCode = copyScriptCode;
+    window.saveWebAppUrl = saveWebAppUrl;
+    window.testWebAppConnection = testWebAppConnection;
+    window.navigateToRecap = navigateToRecap;
+    window.navigateToTodayRecap = navigateToTodayRecap;
+    window.navigateToCalendarRecap = navigateToCalendarRecap;
+    window.navigateToPhotoGallery = navigateToPhotoGallery;
+    window.goBackToMain = goBackToMain;
+    window.goBackToRecapMenu = goBackToRecapMenu;
+    window.goBackToPhotoGallery = goBackToPhotoGallery;
+    window.refreshRecapTableData = refreshRecapTableData;
 
     document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba0c880e2c3ea87',t:'MTc2Nzc2MDg5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba0f96e029b490a',t:'MTc2Nzc2Mjg5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
