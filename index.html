@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Absen Archipelago</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&amp;family=Bebas+Neue&amp;display=swap" rel="stylesheet">
   <script src="/_sdk/data_sdk.js"></script>
   <script src="/_sdk/element_sdk.js"></script>
   <style>
@@ -173,6 +173,7 @@
       height: 60px;
       object-fit: contain;
       filter: brightness(0) invert(1);
+      display: block;
     }
 
     .main-title {
@@ -935,7 +936,16 @@
      <div class="time-display" id="timeDisplay"></div>
     </div>
    </div><!-- Content -->
-   <div class="content-area"><!-- Baris Pertama: Tombol Kontrol -->
+   <div class="content-area"><!-- Loading Indicator untuk Data Pekerja -->
+    <div id="workersLoadingIndicator" style="display: none; background: rgba(102, 126, 234, 0.15); border: 2px solid #667eea; border-radius: 15px; padding: 30px; text-align: center; margin-bottom: 25px; backdrop-filter: blur(10px);">
+     <div style="display: inline-block; width: 50px; height: 50px; border: 5px solid rgba(102, 126, 234, 0.3); border-top-color: #667eea; border-radius: 50%; animation: spin 1s linear infinite; margin-bottom: 15px;"></div>
+     <div style="color: white; font-size: 18px; font-weight: bold; margin-bottom: 8px;">
+      ⚡ Memuat Data Pekerja...
+     </div>
+     <div style="color: rgba(255, 255, 255, 0.8); font-size: 14px;">
+      Mohon tunggu sebentar
+     </div>
+    </div><!-- Baris Pertama: Tombol Kontrol -->
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; flex-wrap: wrap;"><!-- Sisi Kiri: Hadir Semua & Reset -->
      <div style="display: flex; gap: 8px;"><button onclick="setAllPresent()" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: #22c55e; color: white; border: none; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);" onmouseover="this.style.background='#16a34a'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(34, 197, 94, 0.4)';" onmouseout="this.style.background='#22c55e'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(34, 197, 94, 0.3)';">
        <svg width="16" height="16" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17L4 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -967,16 +977,14 @@
       </div>
      </div>
     </div><!-- Workers Grid -->
-    <div class="workers-full-grid" id="workersGrid"></div><!-- ========== CARD UPLOAD FOTO (IDENTIK WEBSITE A) ========== -->
-    <div class="bg-slate-800/50 border border-slate-700 rounded-xl p-3 shadow-lg" style="margin-bottom: 25px;"><!-- Header -->
-     <h3 class="text-slate-300 text-sm font-semibold mb-3">📷 Upload foto absen</h3><!-- Tombol Upload Custom --> <input type="file" id="photoFileInput" accept="image/*" capture="environment" onchange="handlePhotoSelect(event)" class="hidden"> <label for="photoFileInput" class="w-full py-2 bg-slate-700/70 hover:bg-slate-600 border border-slate-600 text-white rounded-lg flex items-center justify-center gap-2 font-medium text-sm transition-all cursor-pointer"> <!-- Ikon Kamera SVG -->
-      <svg class="text-slate-300" width="20" height="20" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" /> <circle cx="12" cy="13" r="3" stroke="currentColor" stroke-width="2" /> <path d="M7 5L8.5 3H15.5L17 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-      </svg> Ambil Foto </label> <!-- Indikator Lokasi -->
-     <div class="mt-2 text-xs text-slate-400 flex items-center gap-1"><!-- Ikon Pin Lokasi SVG -->
-      <svg width="14" height="14" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="currentColor" />
-      </svg><span id="locationStatus">Mengambil lokasi...</span>
+    <div class="workers-full-grid" id="workersGrid"></div><!-- ========== CARD UPLOAD FOTO (FULL HD WATERMARK) ========== -->
+    <div style="background: rgba(30, 41, 59, 0.5); border: 1px solid #475569; border-radius: 12px; padding: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); margin-bottom: 25px;"><!-- Tombol Upload Custom --> <input type="file" id="photoFileInput" accept="image/*" capture="environment" onchange="handlePhotoUpload(event)" style="display: none;"> <label for="photoFileInput" style="width: 100%; padding: 10px; background: rgba(51, 65, 85, 0.7); border: 1px solid #475569; color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; gap: 8px; font-family: 'Poppins', sans-serif; font-weight: 500; font-size: 14px; cursor: pointer; transition: all 0.3s;" onmouseover="this.style.background='rgba(71, 85, 105, 0.9)'" onmouseout="this.style.background='rgba(51, 65, 85, 0.7)'"> <!-- Ikon Kamera SVG -->
+      <svg style="color: #cbd5e1;" width="20" height="20" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="2" /> <circle cx="12" cy="13" r="3" stroke="currentColor" stroke-width="2" /> <path d="M7 5L8.5 3H15.5L17 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg> Ambil Foto Absensi </label> <!-- Indikator Lokasi -->
+     <div style="margin-top: 8px; font-size: 12px; color: #94a3b8; display: flex; align-items: center; gap: 4px;">
+      📍 <span id="locationStatus">Mengambil lokasi...</span>
      </div><!-- Preview Area -->
-     <div id="photoPreviewArea" class="mt-3"></div>
+     <div id="photoPreviewArea" style="margin-top: 12px;"></div>
     </div><!-- Submit -->
     <div class="submit-container"><button class="submit-main-btn" id="submitButton" onclick="performSubmit()">
       <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -1311,6 +1319,8 @@ function doGet(e) {
      </svg> Kembali </button>
    </div>
    <div class="photo-items-grid" id="photoItemsBox"></div>
+  </div><!-- Lightbox Modal for Photo Preview -->
+  <div id="photoLightbox" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 9999; align-items: center; justify-content: center;" onclick="closeLightbox(event)"><button id="lightboxPrevBtn" onclick="navigateLightbox(-1); event.stopPropagation();" style="display: none; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.2); border: 2px solid white; color: white; font-size: 30px; padding: 15px 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s; z-index: 10000;" onmouseover="this.style.background='rgba(255, 255, 255, 0.4)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">&lt;</button> <img id="lightboxImage" src="" alt="Preview" style="max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 10px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);" onclick="event.stopPropagation()"> <button id="lightboxNextBtn" onclick="navigateLightbox(1); event.stopPropagation();" style="display: none; position: absolute; right: 20px; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.2); border: 2px solid white; color: white; font-size: 30px; padding: 15px 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s; z-index: 10000;" onmouseover="this.style.background='rgba(255, 255, 255, 0.4)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">&gt;</button> <button onclick="closeLightbox(event)" style="position: absolute; top: 20px; right: 20px; background: rgba(255, 255, 255, 0.2); border: 2px solid white; color: white; font-size: 24px; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; transition: all 0.3s; z-index: 10000; display: flex; align-items: center; justify-content: center;" onmouseover="this.style.background='rgba(255, 255, 255, 0.4)'" onmouseout="this.style.background='rgba(255, 255, 255, 0.2)'">×</button>
   </div>
   <script>
     const defaultConfig = {
@@ -1320,7 +1330,8 @@ function doGet(e) {
 
     let workersData = [];
     let statusesMap = {};
-    let uploadedPhoto = null;
+    let uploadedPhotos = [];
+    let currentLightboxIndex = 0;
     let userLoggedIn = false;
     let allRecapData = [];
     
@@ -1370,7 +1381,6 @@ function doGet(e) {
     async function initializeApp() {
       console.log('🚀 App initialized dengan URL:', appWebUrl);
       
-      // Initialize GPS location
       getUserLocation();
       
       if (window.elementSdk) {
@@ -1416,7 +1426,6 @@ function doGet(e) {
       document.getElementById('loginForm').addEventListener('submit', handleLoginSubmit);
     }
 
-    // ============ GPS & LOCATION FUNCTIONS ============
     function getUserLocation() {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -1463,182 +1472,343 @@ function doGet(e) {
       }
     }
 
-    // ============ PHOTO UPLOAD FUNCTIONS ============
-    async function handlePhotoSelect(event) {
+    async function handlePhotoUpload(event) {
       const file = event.target.files[0];
       if (!file) return;
       
-      console.log('📷 Photo selected:', file.name);
+      console.log('📸 Photo selected:', file.name);
       
       const reader = new FileReader();
       reader.onload = async (e) => {
+        const watermarkedImage = await addTimemark(e.target.result);
+        const compressed = await compressImageForUpload(watermarkedImage);
+        uploadedPhotos.push(compressed);
+        updatePhotoPreview();
+        showNotification('✅ Foto berhasil diambil dengan watermark Full HD!', '#4CAF50');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function updatePhotoPreview() {
+      const previewArea = document.getElementById('photoPreviewArea');
+      
+      if (uploadedPhotos.length === 0) {
+        previewArea.innerHTML = '';
+        return;
+      }
+      
+      let html = '<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 15px;">';
+      
+      uploadedPhotos.forEach((photo, index) => {
+        html += `
+          <div style="position: relative; cursor: pointer;" onclick="openLightbox(${index})">
+            <img src="${photo}" style="width: 100%; height: 120px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.2);">
+            <button onclick="deletePhoto(${index}); event.stopPropagation();" style="position: absolute; top: 5px; right: 5px; background: rgba(239, 68, 68, 0.9); color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-weight: bold; font-size: 16px; display: flex; align-items: center; justify-content: center; transition: all 0.2s;" onmouseover="this.style.background='rgb(220, 38, 38)'" onmouseout="this.style.background='rgba(239, 68, 68, 0.9)'">&times;</button>
+          </div>
+        `;
+      });
+      
+      html += '</div>';
+      
+      previewArea.innerHTML = html;
+    }
+
+    function deletePhoto(index) {
+      uploadedPhotos.splice(index, 1);
+      updatePhotoPreview();
+      showNotification('🗑️ Foto dihapus', '#ff9800');
+    }
+
+    function openLightbox(index) {
+      currentLightboxIndex = index;
+      const lightbox = document.getElementById('photoLightbox');
+      const lightboxImage = document.getElementById('lightboxImage');
+      const prevBtn = document.getElementById('lightboxPrevBtn');
+      const nextBtn = document.getElementById('lightboxNextBtn');
+      
+      lightboxImage.src = uploadedPhotos[index];
+      lightbox.style.display = 'flex';
+      
+      if (uploadedPhotos.length > 1) {
+        prevBtn.style.display = 'block';
+        nextBtn.style.display = 'block';
+      } else {
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+      }
+    }
+
+    function closeLightbox(event) {
+      if (event) {
+        event.stopPropagation();
+      }
+      const lightbox = document.getElementById('photoLightbox');
+      lightbox.style.display = 'none';
+    }
+
+    function navigateLightbox(direction) {
+      currentLightboxIndex += direction;
+      
+      if (currentLightboxIndex < 0) {
+        currentLightboxIndex = uploadedPhotos.length - 1;
+      } else if (currentLightboxIndex >= uploadedPhotos.length) {
+        currentLightboxIndex = 0;
+      }
+      
+      const lightboxImage = document.getElementById('lightboxImage');
+      lightboxImage.src = uploadedPhotos[currentLightboxIndex];
+    }
+
+    async function addTimemark(imageDataUrl) {
+      return new Promise((resolve) => {
         const img = new Image();
         img.onload = async () => {
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
           
-          const targetWidth = 1920;
-          const targetHeight = 1080;
-          const videoAspect = img.width / img.height;
+          // HIGH RESOLUTION - 4K Ultra HD dengan 2x scale untuk ketajaman maksimal
+          const minWidth = 3840 * 2;
+          const minHeight = 2160 * 2;
           
-          if (videoAspect > targetWidth / targetHeight) {
-            canvas.width = targetWidth;
-            canvas.height = targetWidth / videoAspect;
+          let width = Math.max(img.width, minWidth);
+          let height = Math.max(img.height, minHeight);
+          
+          const imgAspect = img.width / img.height;
+          const targetAspect = minWidth / minHeight;
+          
+          if (imgAspect > targetAspect) {
+            width = Math.max(img.width, minWidth);
+            height = width / imgAspect;
           } else {
-            canvas.height = targetHeight;
-            canvas.width = targetHeight * videoAspect;
+            height = Math.max(img.height, minHeight);
+            width = height * imgAspect;
           }
           
-          if (canvas.width < targetWidth || canvas.height < targetHeight) {
-            canvas.width = targetWidth;
-            canvas.height = targetHeight;
+          canvas.width = width;
+          canvas.height = height;
+          
+          // Pengaturan canvas untuk ketajaman maksimal
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = 'high';
+          ctx.textRendering = 'geometricPrecision';
+          
+          ctx.drawImage(img, 0, 0, width, height);
+          
+          const logo = new Image();
+          logo.crossOrigin = 'anonymous';
+          const logoUrl = 'https://lh3.googleusercontent.com/d/1zaavYZSem-yNHztE724qeIAWw9uGJgen';
+          
+          const logoLoaded = await new Promise((res) => {
+            logo.onload = () => { console.log('✅ Logo loaded'); res(true); };
+            logo.onerror = () => { console.error('❌ Logo failed'); res(false); };
+            setTimeout(() => { if (!logo.complete) { console.warn('⚠️ Logo timeout'); res(false); } }, 5000);
+            logo.src = logoUrl;
+          });
+          
+          const now = new Date();
+          
+          const padding = width * 0.025;
+          
+          // ===== POJOK KANAN ATAS: "Timemark" (Time kuning, mark putih) =====
+          const brandX = width - padding;
+          const brandY = padding + 50;
+          
+          ctx.save();
+          ctx.textAlign = 'right';
+          const timemarkFontSize = Math.floor(width * 0.028);
+          ctx.font = `bold ${timemarkFontSize}px 'Poppins', sans-serif`;
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 6;
+          ctx.shadowOffsetX = 3;
+          ctx.shadowOffsetY = 3;
+          
+          // Render "mark" (putih) dulu
+          ctx.fillStyle = '#ffffff';
+          const markText = 'mark';
+          ctx.fillText(markText, brandX, brandY);
+          
+          // Render "Time" (kuning) di sebelah kiri "mark"
+          const markWidth = ctx.measureText(markText).width;
+          ctx.fillStyle = '#ffcc00';
+          ctx.fillText('Time', brandX - markWidth, brandY);
+          ctx.restore();
+          
+          // ===== POJOK KIRI BAWAH: LAYOUT VERTIKAL RAPI DENGAN SPACING PROPORSIONAL =====
+          const baseX = padding;
+          let currentY = height - padding;
+          
+          // BARIS 3 (paling bawah): LOKASI dengan emoji dan alamat
+          const addressMaxWidth = (width / 2) - (padding * 2);
+          ctx.save();
+          ctx.font = `600 ${Math.floor(width * 0.014)}px 'Poppins', sans-serif`;
+          const addressLines = wrapText(ctx, cachedAddress, addressMaxWidth);
+          const limitedAddressLines = addressLines.slice(0, 2);
+          ctx.restore();
+          
+          const addressLineHeight = Math.floor(width * 0.018);
+          
+          // Emoji pin
+          const pinSize = Math.floor(width * 0.018);
+          const pinX = baseX + (pinSize / 2);
+          const pinY = currentY - (addressLineHeight / 2);
+          
+          ctx.save();
+          ctx.font = `${pinSize * 1.3}px Arial`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 4;
+          ctx.shadowOffsetX = 2;
+          ctx.shadowOffsetY = 2;
+          ctx.fillText('📍', pinX, pinY);
+          ctx.restore();
+          
+          // Alamat text
+          const addressTextX = baseX + pinSize + 20;
+          ctx.save();
+          ctx.font = `600 ${Math.floor(width * 0.014)}px 'Poppins', sans-serif`;
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'bottom';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 6;
+          ctx.shadowOffsetX = 3;
+          ctx.shadowOffsetY = 3;
+          
+          if (limitedAddressLines.length === 2) {
+            ctx.fillText(limitedAddressLines[1], addressTextX, currentY);
+            ctx.fillText(limitedAddressLines[0], addressTextX, currentY - addressLineHeight);
+          } else {
+            ctx.fillText(limitedAddressLines[0], addressTextX, currentY);
+          }
+          ctx.restore();
+          
+          // JARAK PROPORSIONAL: Lokasi ke Jam = 50px (lebih lega)
+          currentY -= (addressLineHeight * limitedAddressLines.length) + 50;
+          
+          // BARIS 2: JAM + GARIS KUNING + HARI & TANGGAL
+          const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
+          const dayName = now.toLocaleDateString('en-US', { weekday: 'long' }).toUpperCase();
+          const dayNumber = now.getDate();
+          const monthName = now.toLocaleDateString('id-ID', { month: 'long' }).toUpperCase();
+          const yearNumber = now.getFullYear();
+          
+          const clockFontSize = Math.floor(width * 0.06);
+          const dateFontSize = Math.floor(width * 0.022);
+          
+          // Jam (Bebas Neue)
+          ctx.save();
+          ctx.font = `bold ${clockFontSize}px "Bebas Neue", "Arial Black", Impact, sans-serif`;
+          ctx.fillStyle = '#ffcc00';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 8;
+          ctx.shadowOffsetX = 4;
+          ctx.shadowOffsetY = 4;
+          ctx.fillText(timeStr, baseX, currentY);
+          const timeWidth = ctx.measureText(timeStr).width;
+          ctx.restore();
+          
+          // Garis tegak kuning
+          const lineX = baseX + timeWidth + 30;
+          const lineHeight = clockFontSize * 0.8;
+          const lineTop = currentY - (lineHeight / 2);
+          
+          ctx.save();
+          ctx.strokeStyle = '#ffcc00';
+          ctx.lineWidth = 6;
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 8;
+          ctx.shadowOffsetX = 4;
+          ctx.shadowOffsetY = 4;
+          ctx.beginPath();
+          ctx.moveTo(lineX, lineTop);
+          ctx.lineTo(lineX, lineTop + lineHeight);
+          ctx.stroke();
+          ctx.restore();
+          
+          // Hari dan tanggal (2 baris di sebelah kanan garis)
+          const dateX = lineX + 30;
+          const dateLineSpacing = dateFontSize * 1.2;
+          
+          ctx.save();
+          ctx.font = `bold ${dateFontSize}px 'Poppins', sans-serif`;
+          ctx.fillStyle = '#ffffff';
+          ctx.textAlign = 'left';
+          ctx.textBaseline = 'middle';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.9)';
+          ctx.shadowBlur = 6;
+          ctx.shadowOffsetX = 3;
+          ctx.shadowOffsetY = 3;
+          
+          // Baris atas: HARI
+          ctx.fillText(dayName, dateX, currentY - (dateLineSpacing / 2));
+          
+          // Baris bawah: TANGGAL
+          ctx.fillText(`${dayNumber} ${monthName} ${yearNumber}`, dateX, currentY + (dateLineSpacing / 2));
+          ctx.restore();
+          
+          // JARAK PROPORSIONAL: Jam ke Logo = 60px (lebih lega)
+          currentY -= clockFontSize + 60;
+          
+          // BARIS 1 (paling atas): LOGO DALAM CARD PUTIH
+          const logoBoxSize = Math.floor(width * 0.1);
+          const logoBoxX = baseX;
+          const logoBoxY = currentY - logoBoxSize;
+          
+          ctx.save();
+          ctx.fillStyle = '#ffffff';
+          ctx.shadowColor = 'rgba(0, 0, 0, 0.7)';
+          ctx.shadowBlur = 10;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 5;
+          ctx.beginPath();
+          ctx.roundRect(logoBoxX, logoBoxY, logoBoxSize, logoBoxSize, 20);
+          ctx.fill();
+          ctx.restore();
+          
+          if (logoLoaded && logo.complete && logo.naturalWidth > 0) {
+            const logoPadding = 15;
+            const availableSpace = logoBoxSize - (logoPadding * 2);
+            const logoAspect = logo.naturalWidth / logo.naturalHeight;
+            let drawWidth, drawHeight, offsetX = 0, offsetY = 0;
+            
+            if (logoAspect > 1) {
+              drawWidth = availableSpace;
+              drawHeight = availableSpace / logoAspect;
+              offsetY = (availableSpace - drawHeight) / 2;
+            } else {
+              drawHeight = availableSpace;
+              drawWidth = availableSpace * logoAspect;
+              offsetX = (availableSpace - drawWidth) / 2;
+            }
+            
+            ctx.save();
+            ctx.drawImage(
+              logo, 
+              logoBoxX + logoPadding + offsetX, 
+              logoBoxY + logoPadding + offsetY, 
+              drawWidth, 
+              drawHeight
+            );
+            ctx.restore();
+            console.log('✅ Logo rendered in white box');
+          } else {
+            ctx.save();
+            ctx.font = `bold ${Math.floor(logoBoxSize * 0.25)}px 'Poppins', sans-serif`;
+            ctx.fillStyle = '#667eea';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('ARCH', logoBoxX + (logoBoxSize / 2), logoBoxY + (logoBoxSize / 2));
+            ctx.restore();
           }
           
-          ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-          
-          await addTimemark(canvas, ctx);
-          
-          let photoDataUrl = canvas.toDataURL('image/jpeg', 0.9);
-          
-          photoDataUrl = await compressImageForUpload(photoDataUrl);
-          
-          uploadedPhoto = photoDataUrl;
-          
-          document.getElementById('photoPreviewArea').innerHTML = `
-            <div class="mt-3 text-center">
-              <p class="text-green-400 font-semibold mb-2">✅ Foto berhasil diambil!</p>
-              <img src="${photoDataUrl}" class="max-w-full rounded-lg shadow-lg mx-auto" style="max-width: 300px;">
-            </div>
-          `;
-          
-          showNotification('✅ Foto berhasil diambil dengan timemark!', '#4CAF50');
+          const result = canvas.toDataURL('image/jpeg', 0.95);
+          resolve(result);
         };
-        img.src = e.target.result;
-      };
-      reader.readAsDataURL(file);
-    }
-
-    async function addTimemark(canvas, ctx) {
-      const now = new Date();
-      const width = canvas.width;
-      const height = canvas.height;
-      
-      const logo = new Image();
-      logo.crossOrigin = 'anonymous';
-      logo.src = 'https://drive.google.com/thumbnail?id=1zaavYZSem-yNHztE724qeIAWw9uGJgen&sz=w400';
-      
-      await new Promise((resolve) => {
-        logo.onload = resolve;
-        logo.onerror = resolve;
+        img.src = imageDataUrl;
       });
-      
-      // POJOK KANAN ATAS: Watermark Brand
-      const brandTextX = width - 20;
-      const brandTextY = 30;
-      
-      ctx.save();
-      ctx.textAlign = 'right';
-      
-      ctx.font = 'bold 28px Poppins, Arial';
-      ctx.fillStyle = '#ffcc00';
-      const timeText = 'Time';
-      ctx.fillText(timeText, brandTextX, brandTextY);
-      
-      const timeWidth = ctx.measureText(timeText).width;
-      ctx.fillStyle = 'white';
-      ctx.fillText('mark', brandTextX - timeWidth, brandTextY);
-      
-      ctx.font = 'bold 16px Poppins, Arial';
-      ctx.fillStyle = 'rgba(76, 175, 80, 0.95)';
-      ctx.fillText('100% photo verified', brandTextX, brandTextY + 28);
-      ctx.restore();
-      
-      // POJOK KIRI BAWAH: Panel Utama
-      const panelX = 20;
-      const panelY = height - 200;
-      const panelWidth = 500;
-      const panelHeight = 180;
-      
-      ctx.save();
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.80)';
-      ctx.fillRect(panelX, panelY, panelWidth, panelHeight);
-      ctx.restore();
-      
-      // LOGO
-      const logoSize = 60;
-      const logoX = panelX + 15;
-      const logoY = panelY + 15;
-      
-      ctx.save();
-      ctx.fillStyle = 'white';
-      ctx.beginPath();
-      ctx.roundRect(logoX, logoY, logoSize, logoSize, 8);
-      ctx.fill();
-      
-      if (logo.complete && logo.width > 0) {
-        ctx.drawImage(logo, logoX + 5, logoY + 5, logoSize - 10, logoSize - 10);
-      }
-      ctx.restore();
-      
-      // JAM BESAR
-      const timeStr = now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit', hour12: false });
-      ctx.save();
-      ctx.font = 'bold 72px "Bebas Neue", "Arial Black", Impact, sans-serif';
-      ctx.fillStyle = 'white';
-      ctx.textAlign = 'left';
-      ctx.fillText(timeStr, logoX, logoY + logoSize + 65);
-      ctx.restore();
-      
-      // GARIS KUNING VERTIKAL
-      const lineX = logoX + 165;
-      const lineY = logoY + logoSize + 10;
-      const lineHeight = 70;
-      
-      ctx.save();
-      ctx.strokeStyle = '#ffcc00';
-      ctx.lineWidth = 8;
-      ctx.beginPath();
-      ctx.moveTo(lineX, lineY);
-      ctx.lineTo(lineX, lineY + lineHeight);
-      ctx.stroke();
-      ctx.restore();
-      
-      // INFO TANGGAL
-      const dateX = lineX + 25;
-      const dateY = lineY + 10;
-      
-      const dayName = now.toLocaleDateString('id-ID', { weekday: 'long' });
-      const date = now.getDate();
-      const monthName = now.toLocaleDateString('id-ID', { month: 'long' });
-      const year = now.getFullYear();
-      
-      ctx.save();
-      ctx.font = 'bold 18px Poppins, Arial';
-      ctx.fillStyle = 'white';
-      ctx.textAlign = 'left';
-      ctx.fillText(dayName.toUpperCase(), dateX, dateY + 18);
-      ctx.fillText(`${date} ${monthName}`, dateX, dateY + 40);
-      ctx.fillText(`${year}`, dateX, dateY + 62);
-      ctx.restore();
-      
-      // ALAMAT LOKASI
-      const addressX = panelX + 15;
-      const addressY = panelY + panelHeight - 40;
-      const maxAddressWidth = panelWidth - 30;
-      
-      ctx.save();
-      ctx.font = '14px Poppins, Arial';
-      ctx.fillStyle = '#ffcc00';
-      ctx.textAlign = 'left';
-      
-      const fullAddress = `📍 ${cachedAddress}`;
-      const addressLines = wrapText(ctx, fullAddress, maxAddressWidth);
-      
-      addressLines.forEach((line, index) => {
-        ctx.fillText(line, addressX, addressY + (index * 18));
-      });
-      
-      ctx.restore();
     }
 
     function wrapText(ctx, text, maxWidth) {
@@ -1685,7 +1855,7 @@ function doGet(e) {
           canvas.height = height;
           ctx.drawImage(img, 0, 0, width, height);
           
-          const compressed = canvas.toDataURL('image/jpeg', 0.75);
+          const compressed = canvas.toDataURL('image/jpeg', 0.8);
           resolve(compressed);
         };
         img.src = base64Image;
@@ -1694,6 +1864,11 @@ function doGet(e) {
 
     async function fetchWorkersFromSheet() {
       console.log('🔵 Loading workers from sheet...');
+      
+      const loadingIndicator = document.getElementById('workersLoadingIndicator');
+      if (loadingIndicator) {
+        loadingIndicator.style.display = 'block';
+      }
       
       if (appWebUrl) {
         try {
@@ -1721,6 +1896,10 @@ function doGet(e) {
 
       renderWorkersGrid();
       updateCounter();
+      
+      if (loadingIndicator) {
+        loadingIndicator.style.display = 'none';
+      }
     }
 
     async function fetchRecapData() {
@@ -1760,6 +1939,9 @@ function doGet(e) {
         mainApp.classList.add('active');
         userLoggedIn = true;
         
+        const grid = document.getElementById('workersGrid');
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: white; background: rgba(255,255,255,0.1); border-radius: 15px;">⏳ Memuat data pekerja...</div>';
+        
         Promise.all([
           fetchWorkersFromSheet(),
           fetchRecapData()
@@ -1769,6 +1951,7 @@ function doGet(e) {
           }
         }).catch(error => {
           console.error('❌ Error:', error);
+          grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: white; background: rgba(255,100,100,0.2); border: 2px solid #f44336; border-radius: 15px;">❌ Gagal memuat data. <button onclick="location.reload()" style="margin-top: 15px; padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold;">🔄 Coba Lagi</button></div>';
         });
         
       } else {
@@ -1877,7 +2060,7 @@ function doGet(e) {
       workersData.forEach(worker => {
         statusesMap[worker.name] = null;
       });
-      uploadedPhoto = null;
+      uploadedPhotos = [];
       document.getElementById('photoPreviewArea').innerHTML = '';
       renderWorkersGrid();
       updateCounter();
@@ -1966,7 +2149,7 @@ function doGet(e) {
         workers: workersToSubmit,
         date: currentDate,
         time: currentTime,
-        photo_url: uploadedPhoto || ''
+        photo_url: uploadedPhotos.length > 0 ? uploadedPhotos[0] : ''
       };
 
       showNotification(`⚡ <strong>TERKIRIM!</strong> ${workersToSubmit.length} absensi sedang disimpan...`, '#4CAF50');
@@ -2000,7 +2183,7 @@ function doGet(e) {
                 status: worker.status,
                 date: currentDate,
                 time: currentTime,
-                photo_url: uploadedPhoto || '',
+                photo_url: uploadedPhotos.length > 0 ? uploadedPhotos[0] : '',
                 worker_photo: worker.photo || ''
               };
               return window.dataSdk.create(record);
@@ -2129,7 +2312,7 @@ function doGet(e) {
       testResult.style.display = 'block';
       testResult.style.background = '#2196F3';
       testResult.style.color = 'white';
-      testResult.innerHTML = '🔄 Testing connection...';
+      testResult.innerHTML = '🔍 Testing connection...';
 
       try {
         const response = await fetch(url + '?action=workers');
@@ -2290,7 +2473,7 @@ function doGet(e) {
       
       console.log('🔍 Rendering recap table...');
       console.log('📊 allRecapData length:', allRecapData ? allRecapData.length : 0);
-      console.log('🎯 filterDate:', filterDate);
+      console.log('📅 filterDate:', filterDate);
       
       if (!allRecapData || allRecapData.length < 3) {
         container.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Belum ada data recap. Pastikan sheet "Absen Recap" sudah terisi.</p>';
@@ -2514,14 +2697,17 @@ function doGet(e) {
       }
     };
 
-    // Assign global functions
     window.assignStatus = assignStatus;
     window.setAllPresent = setAllPresent;
     window.resetAllData = resetAllData;
     window.performSearch = performSearch;
     window.clearSearch = clearSearch;
     window.performSubmit = performSubmit;
-    window.handlePhotoSelect = handlePhotoSelect;
+    window.handlePhotoUpload = handlePhotoUpload;
+    window.deletePhoto = deletePhoto;
+    window.openLightbox = openLightbox;
+    window.closeLightbox = closeLightbox;
+    window.navigateLightbox = navigateLightbox;
     window.openSetupModal = openSetupModal;
     window.closeSetupModal = closeSetupModal;
     window.copyScriptCode = copyScriptCode;
@@ -2538,5 +2724,5 @@ function doGet(e) {
 
     document.addEventListener('DOMContentLoaded', initializeApp);
   </script>
- <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba0f96e029b490a',t:'MTc2Nzc2Mjg5NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba20864329b70ac',t:'MTc2Nzc3Mzk5My4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
