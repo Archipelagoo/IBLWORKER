@@ -1,0 +1,2293 @@
+<!doctype html>
+<html lang="id" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Absen Archipelago</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&amp;display=swap" rel="stylesheet">
+  <script src="/_sdk/data_sdk.js"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 100%);
+      min-height: 100%;
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    html, body {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* LOGIN PAGE - FULL SCREEN */
+    .login-wrapper {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 100%);
+      padding: 20px;
+    }
+
+    .login-card {
+      background: white;
+      padding: 50px 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+    }
+
+    .login-logo {
+      width: 180px;
+      height: auto;
+      margin: 0 auto 20px;
+      display: block;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+
+    .login-title {
+      font-size: 28px;
+      font-weight: bold;
+      color: #0e1c2e;
+      margin-bottom: 40px;
+      letter-spacing: 2px;
+    }
+
+    .input-group {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .input-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+
+    .input-group input:focus {
+      outline: none;
+      border-color: #4CAF50;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 18px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-top: 10px;
+    }
+
+    .login-btn:hover {
+      background: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+    }
+
+    .login-btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .error-message {
+      color: #e74c3c;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    .info-message {
+      color: #2196F3;
+      text-align: center;
+      margin-top: 15px;
+      font-weight: 600;
+    }
+
+    /* MAIN APP WRAPPER - FULL WIDTH */
+    .app-wrapper {
+      display: none;
+      width: 100%;
+      min-height: 100%;
+      background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 100%);
+    }
+
+    .app-wrapper.active {
+      display: block;
+    }
+
+    /* HEADER - FULL WIDTH EDGE TO EDGE */
+    .top-header {
+      width: 100%;
+      background: #1a3a5c;
+      padding: 25px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .logo-img {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      filter: brightness(0) invert(1);
+    }
+
+    .main-title {
+      font-size: 26px;
+      font-weight: bold;
+      color: white;
+      letter-spacing: 1px;
+    }
+
+    .header-right-section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 5px;
+    }
+
+    .date-display {
+      font-size: 16px;
+      color: white;
+      font-weight: 600;
+    }
+
+    .time-display {
+      font-size: 20px;
+      color: #ffd700;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .timezone-label {
+      font-size: 20px;
+      color: #ffd700;
+      font-weight: bold;
+    }
+
+    /* CONTENT AREA - FULL WIDTH */
+    .content-area {
+      width: 100%;
+      padding: 30px 40px;
+    }
+
+    /* ACTION BUTTONS ROW */
+    .action-buttons-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .action-button {
+      padding: 14px 28px;
+      background: white;
+      color: #667eea;
+      border: 2px solid #667eea;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-button:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .action-button.setup-style {
+      background: #ff9800;
+      color: white;
+      border-color: #ff9800;
+    }
+
+    .action-button.setup-style:hover {
+      background: #f57c00;
+      border-color: #f57c00;
+    }
+
+    /* CONTROL BUTTONS */
+    .control-buttons-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+
+    .control-button {
+      padding: 14px 28px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .control-button:hover {
+      background: #45a049;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+    }
+
+    .control-button.reset-style {
+      background: #f44336;
+    }
+
+    .control-button.reset-style:hover {
+      background: #da190b;
+    }
+
+    /* SEARCH BOX */
+    .search-container {
+      margin-bottom: 25px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 14px 14px 14px 50px;
+      border: 2px solid #e0e0e0;
+      border-radius: 12px;
+      font-size: 16px;
+      background: white;
+      background-image: url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 24 24%22 fill=%22none%22%3E%3Ccircle cx=%2211%22 cy=%2211%22 r=%228%22 stroke=%22%23999%22 stroke-width=%222%22/%3E%3Cline x1=%2221%22 y1=%2221%22 x2=%2216.65%22 y2=%2216.65%22 stroke=%22%23999%22 stroke-width=%222%22 stroke-linecap=%22round%22/%3E%3C/svg%3E');
+      background-repeat: no-repeat;
+      background-position: 15px center;
+    }
+
+    /* WORKERS GRID - FULL WIDTH EXPANDABLE */
+    .workers-full-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 30px;
+    }
+
+    .worker-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px;
+      background: white;
+      border-radius: 15px;
+      border: 1px solid #d1d5db;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s;
+    }
+
+    .worker-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .worker-item.highlighted {
+      background: #ffb3d9;
+      border: 2px solid #ff69b4;
+    }
+
+    /* KOLOM KIRI - Lebar Tetap 80px */
+    .left-col {
+      width: 80px;
+      flex-shrink: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .worker-avatar {
+      width: 65px;
+      height: 65px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #667eea;
+    }
+
+    .worker-fullname {
+      font-size: 10px;
+      font-weight: bold;
+      text-align: center;
+      color: #333;
+      line-height: 1.2;
+      word-break: break-word;
+      width: 100%;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* KOLOM KANAN - Flex Grow */
+    .right-col {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .status-box {
+      width: 100%;
+      background: #f3f4f6;
+      padding: 5px;
+      border-radius: 6px;
+      text-align: center;
+    }
+
+    .status-text {
+      font-size: 9px;
+      font-weight: 700;
+      color: #374151;
+      line-height: 1.2;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .buttons-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      width: 100%;
+    }
+
+    .status-action-btn {
+      font-size: 8px;
+      padding: 10px 8px;
+      border-radius: 8px;
+      min-height: 32px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .status-action-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+    .status-action-btn.start-btn {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .status-action-btn.finish-btn {
+      background: #2196F3;
+      color: white;
+    }
+
+    .status-action-btn.sick-btn {
+      background: #FF9800;
+      color: white;
+    }
+
+    .status-action-btn.standby-btn {
+      background: #9C27B0;
+      color: white;
+    }
+
+    .status-action-btn.selected {
+      box-shadow: 0 0 0 4px rgba(0,0,0,0.3);
+    }
+
+    /* PHOTO UPLOAD SECTION */
+    .photo-upload-section {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      margin-bottom: 30px;
+    }
+
+    .photo-upload-section h3 {
+      margin-top: 0;
+      color: #333;
+      font-size: 20px;
+      margin-bottom: 15px;
+    }
+
+    .photo-file-input {
+      display: none;
+    }
+
+    .photo-upload-button {
+      display: inline-block;
+      padding: 14px 28px;
+      background: #667eea;
+      color: white;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .photo-upload-button:hover {
+      background: #5568d3;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .photo-preview-area {
+      margin-top: 15px;
+    }
+
+    /* SUBMIT SECTION */
+    .submit-container {
+      margin-bottom: 30px;
+    }
+
+    .submit-main-btn {
+      padding: 18px 50px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 15px;
+      font-size: 22px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+    }
+
+    .submit-main-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+    }
+
+    .submit-main-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .notification-box {
+      background: #4CAF50;
+      color: white;
+      padding: 18px;
+      border-radius: 12px;
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    /* LOADING OVERLAY */
+    .loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000;
+    }
+
+    .loading-box {
+      background: white;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+    }
+
+    .spinner-animation {
+      border: 4px solid #f3f3f3;
+      border-top: 4px solid #4CAF50;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .modal-box {
+      background: white;
+      margin: 50px auto;
+      padding: 35px;
+      border-radius: 15px;
+      max-width: 900px;
+      width: 90%;
+    }
+
+    .modal-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .modal-heading {
+      font-size: 26px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .modal-close {
+      font-size: 32px;
+      cursor: pointer;
+      color: #666;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #000;
+    }
+
+    .code-container {
+      background: #f5f5f5;
+      padding: 20px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .code-container pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      color: #333;
+    }
+
+    .copy-code-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 10px 18px;
+      background: #667eea;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .copy-code-btn:hover {
+      background: #5568d3;
+    }
+
+    .info-block {
+      background: #e3f2fd;
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+      border-left: 4px solid #2196F3;
+    }
+
+    .info-block h4 {
+      margin-top: 0;
+      color: #1976D2;
+      font-size: 18px;
+    }
+
+    .info-block ol, .info-block ul {
+      margin: 12px 0;
+      padding-left: 25px;
+    }
+
+    .info-block li {
+      margin-bottom: 10px;
+      color: #333;
+    }
+
+    /* RECAP PAGES */
+    .recap-wrapper {
+      display: none;
+      width: 100%;
+      min-height: 100%;
+      background: linear-gradient(135deg, #0a1628 0%, #1e3a5f 100%);
+    }
+
+    .recap-wrapper.active {
+      display: block;
+    }
+
+    .page-title-section {
+      padding: 30px 40px;
+      text-align: center;
+    }
+
+    .page-main-title {
+      font-size: 36px;
+      font-weight: bold;
+      color: white;
+      margin: 0;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .navigation-buttons {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      padding: 0 40px;
+    }
+
+    .nav-button {
+      padding: 12px 24px;
+      background: #666;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s;
+    }
+
+    .nav-button:hover {
+      background: #555;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
+    .nav-button.refresh-style {
+      background: #4CAF50;
+    }
+
+    .nav-button.refresh-style:hover {
+      background: #45a049;
+    }
+
+    .recap-options-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+      padding: 0 40px;
+      margin-top: 25px;
+    }
+
+    .recap-card {
+      background: white;
+      padding: 35px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .recap-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .recap-card h3 {
+      color: #667eea;
+      margin: 15px 0 10px 0;
+      font-size: 20px;
+    }
+
+    .recap-card p {
+      color: #666;
+      font-size: 15px;
+    }
+
+    .table-container {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      overflow-x: auto;
+      margin: 0 40px 30px 40px;
+    }
+
+    .table-container table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 100%;
+    }
+
+    .table-container th,
+    .table-container td {
+      padding: 14px;
+      text-align: center;
+      border: 1px solid #ddd;
+      font-size: 14px;
+    }
+
+    .table-container th {
+      background: #667eea;
+      color: white;
+      font-weight: bold;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .table-container td.name-cell {
+      text-align: left;
+      font-weight: bold;
+      background: #f5f5f5;
+      position: sticky;
+      left: 0;
+      z-index: 5;
+    }
+
+    .table-container td.cell-start {
+      background: #4CAF50;
+      color: white;
+      font-weight: bold;
+    }
+
+    .table-container td.cell-finish {
+      background: #2196F3;
+      color: white;
+      font-weight: bold;
+    }
+
+    .table-container td.cell-sick {
+      background: #FF9800;
+      color: white;
+      font-weight: bold;
+    }
+
+    .table-container td.cell-standby {
+      background: #9C27B0;
+      color: white;
+      font-weight: bold;
+    }
+
+    .table-container td.cell-absent {
+      background: #f44336;
+      color: white;
+      font-weight: bold;
+    }
+
+    .table-container td.gray-date {
+      background: #e0e0e0;
+    }
+
+    .table-container th.gray-header {
+      background: #999;
+    }
+
+    .calendar-container {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 12px;
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      margin: 0 40px 30px 40px;
+    }
+
+    .calendar-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f5f5f5;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 16px;
+      transition: all 0.2s;
+    }
+
+    .calendar-cell:hover {
+      background: #667eea;
+      color: white;
+      transform: scale(1.05);
+    }
+
+    .calendar-cell.has-attendance {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .photo-folders-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 25px;
+      padding: 0 40px 30px 40px;
+    }
+
+    .photo-folder-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .photo-folder-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .photo-items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 25px;
+      padding: 0 40px 30px 40px;
+    }
+
+    .photo-item-card {
+      background: white;
+      padding: 12px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .photo-item-card img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .top-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+      }
+
+      .header-right-section {
+        align-items: flex-start;
+      }
+
+      .content-area {
+        padding: 20px;
+      }
+
+      .workers-full-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .navigation-buttons,
+      .page-title-section,
+      .recap-options-grid,
+      .table-container,
+      .calendar-container,
+      .photo-folders-grid,
+      .photo-items-grid {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com" type="text/javascript"></script>
+ </head>
+ <body class="h-full"><!-- Loading Overlay -->
+  <div id="loadingScreen" class="loading-screen">
+   <div class="loading-box">
+    <div class="spinner-animation"></div>
+    <div style="font-size: 18px; font-weight: bold; color: #333;">
+     Memuat data...
+    </div>
+   </div>
+  </div><!-- Login Page -->
+  <div id="loginPage" class="login-wrapper">
+   <div class="login-card"><img src="https://lh3.googleusercontent.com/d/10un5eCNXYwHkgznim3T4lRMwICFWQ8Bw" alt="Logo Archipelago" class="login-logo" onerror="this.style.display='none'">
+    <div class="login-title" id="loginTitle">
+     ABSEN ARCHIPELAGO
+    </div>
+    <form id="loginForm">
+     <div class="input-group"><label for="username">Username</label> <input type="text" id="username" required>
+     </div>
+     <div class="input-group"><label for="password">Password</label> <input type="password" id="password" required>
+     </div><button type="submit" class="login-btn">Login</button>
+     <div id="loginError" class="error-message"></div>
+     <div id="loginInfo" class="info-message"></div>
+    </form>
+   </div>
+  </div><!-- Main App -->
+  <div id="mainApp" class="app-wrapper"><!-- Header -->
+   <div class="top-header">
+    <div class="header-left-section"><img src="https://lh3.googleusercontent.com/d/10un5eCNXYwHkgznim3T4lRMwICFWQ8Bw" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+     <div class="main-title" id="mainTitle">
+      Absen Online Daily Worker
+     </div>
+    </div>
+    <div class="header-right-section">
+     <div class="date-display" id="dateDisplay"></div>
+     <div class="time-display" id="timeDisplay"></div>
+    </div>
+   </div><!-- Content -->
+   <div class="content-area"><!-- Baris Pertama: Tombol Kontrol -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 15px; flex-wrap: wrap;"><!-- Sisi Kiri: Hadir Semua & Reset -->
+     <div style="display: flex; gap: 8px;"><button onclick="setAllPresent()" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: #22c55e; color: white; border: none; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);" onmouseover="this.style.background='#16a34a'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(34, 197, 94, 0.4)';" onmouseout="this.style.background='#22c55e'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(34, 197, 94, 0.3)';">
+       <svg width="16" height="16" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M20 6L9 17L4 12" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+       </svg> Hadir Semua </button> <button onclick="resetAllData()" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: #ef4444; color: white; border: none; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);" onmouseover="this.style.background='#dc2626'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(239, 68, 68, 0.4)';" onmouseout="this.style.background='#ef4444'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(239, 68, 68, 0.3)';">
+       <svg width="16" height="16" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 10C21 10 18.995 7.26822 17.3662 5.63824C15.7373 4.00827 13.4864 3 11 3C6.02944 3 2 7.02944 2 12C2 16.9706 6.02944 21 11 21C15.1031 21 18.5649 18.2543 19.6482 14.5M21 10V4M21 10H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+       </svg> Reset </button>
+     </div><!-- Sisi Kanan: Recap & Script -->
+     <div style="display: flex; gap: 8px;"><button onclick="navigateToRecap()" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: #a855f7; color: white; border: none; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(168, 85, 247, 0.3);" onmouseover="this.style.background='#9333ea'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(168, 85, 247, 0.4)';" onmouseout="this.style.background='#a855f7'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(168, 85, 247, 0.3)';">
+       <svg width="16" height="16" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9 12H15M9 16H15M17 21H7C5.89543 21 5 20.1046 5 19V5C5 3.89543 5.89543 3 7 3H12.5858C12.851 3 13.1054 3.10536 13.2929 3.29289L18.7071 8.70711C18.8946 8.89464 19 9.149 19 9.41421V19C19 20.1046 18.1046 21 17 21Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+       </svg> Recap </button> <button onclick="openSetupModal()" style="display: flex; align-items: center; gap: 6px; padding: 6px 12px; background: #334155; color: white; border: none; border-radius: 8px; font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 12px; cursor: pointer; transition: all 0.3s; box-shadow: 0 2px 8px rgba(51, 65, 85, 0.3);" onmouseover="this.style.background='#1e293b'; this.style.transform='translateY(-2px)'; this.style.boxShadow='0 4px 12px rgba(51, 65, 85, 0.4)';" onmouseout="this.style.background='#334155'; this.style.transform='translateY(0)'; this.style.boxShadow='0 2px 8px rgba(51, 65, 85, 0.3)';">
+       <svg width="16" height="16" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 9L12 5L16 9M8 15L12 19L16 15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /> <rect x="3" y="3" width="18" height="18" rx="2" stroke="white" stroke-width="2" />
+       </svg> Script </button>
+     </div>
+    </div><!-- Baris Kedua: Search & Counter -->
+    <div style="display: flex; gap: 15px; align-items: center; margin-bottom: 25px; flex-wrap: wrap;"><!-- Search Bar -->
+     <div style="flex: 1; min-width: 250px; position: relative;">
+      <svg width="20" height="20" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="position: absolute; left: 15px; top: 50%; transform: translateY(-50%); pointer-events: none; opacity: 0.7;"><circle cx="11" cy="11" r="8" stroke="white" stroke-width="2" /> <line x1="21" y1="21" x2="16.65" y2="16.65" stroke="white" stroke-width="2" stroke-linecap="round" />
+      </svg><input type="text" id="searchInput" placeholder="Cari nama pekerja..." oninput="performSearch()" style="width: 100%; padding: 14px 14px 14px 50px; background: rgba(255, 255, 255, 0.15); border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 12px; color: white; font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 500; outline: none; transition: all 0.3s; backdrop-filter: blur(10px);" onfocus="this.style.background='rgba(255, 255, 255, 0.25)'; this.style.borderColor='rgba(255, 255, 255, 0.5)';" onblur="this.style.background='rgba(255, 255, 255, 0.15)'; this.style.borderColor='rgba(255, 255, 255, 0.3)';">
+     </div><!-- Counter -->
+     <div style="background: white; border: 2px solid #e5e7eb; border-radius: 12px; padding: 12px 24px; display: flex; gap: 20px; align-items: center; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);">
+      <div style="display: flex; align-items: center; gap: 10px;">
+       <div style="width: 18px; height: 18px; background: #22c55e; border-radius: 50%; box-shadow: 0 2px 6px rgba(34, 197, 94, 0.4);"></div><span id="counter-selected" style="font-size: 20px; font-weight: 700; color: #1f2937; font-family: 'Poppins', sans-serif;">0</span>
+      </div>
+      <div style="width: 2px; height: 24px; background: #e5e7eb;"></div>
+      <div style="display: flex; align-items: center; gap: 10px;">
+       <div style="width: 18px; height: 18px; background: #ef4444; border-radius: 50%; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);"></div><span id="counter-unselected" style="font-size: 20px; font-weight: 700; color: #1f2937; font-family: 'Poppins', sans-serif;">0</span>
+      </div>
+     </div>
+    </div><!-- Workers Grid -->
+    <div class="workers-full-grid" id="workersGrid"></div><!-- Photo Upload -->
+    <div class="photo-upload-section">
+     <h3>Upload Foto Absen</h3><label for="photoFileInput" class="photo-upload-button">
+      <svg width="20" height="20" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="5" width="18" height="16" rx="2" stroke="white" stroke-width="2" /> <circle cx="12" cy="13" r="3" stroke="white" stroke-width="2" /> <path d="M7 5L8.5 3H15.5L17 5" stroke="white" stroke-width="2" stroke-linecap="round" />
+      </svg> Ambil/Upload Foto </label> <input type="file" id="photoFileInput" class="photo-file-input" accept="image/*" capture="environment">
+     <div id="photoPreview" class="photo-preview-area"></div>
+    </div><!-- Submit -->
+    <div class="submit-container"><button class="submit-main-btn" id="submitButton" onclick="performSubmit()">
+      <svg width="24" height="24" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg> Kirim Absensi </button>
+    </div>
+    <div id="notificationBox" class="notification-box" style="display: none;"></div>
+   </div>
+  </div><!-- Setup Modal -->
+  <div id="setupModal" class="modal-overlay">
+   <div class="modal-box">
+    <div class="modal-top">
+     <div class="modal-heading">
+      Setup Google Apps Script
+     </div><span class="modal-close" onclick="closeSetupModal()">×</span>
+    </div>
+    <div class="info-block">
+     <h4>📋 Langkah-langkah Setup:</h4>
+     <ol>
+      <li>Buka Google Spreadsheet Anda: <a href="https://docs.google.com/spreadsheets/d/1FllBcwBjTr_jfPylhyWwHt6ZE16j6fJpSa0C9hYEw44/edit" target="_blank" rel="noopener noreferrer">Klik di sini</a></li>
+      <li>Klik menu <strong>Extensions → Apps Script</strong></li>
+      <li>Hapus semua kode yang ada (jika ada)</li>
+      <li>Copy kode di bawah ini dan paste ke Apps Script Editor</li>
+      <li>Klik tombol <strong>Save</strong> (ikon disk)</li>
+      <li>Klik <strong>Deploy → Manage deployments</strong></li>
+      <li>Klik <strong>✏️ Edit</strong> (ikon pensil)</li>
+      <li>Ubah <strong>Version: New version</strong></li>
+      <li>Klik <strong>Deploy</strong></li>
+     </ol>
+    </div>
+    <div class="code-container"><button class="copy-code-btn" onclick="copyScriptCode()">📋 Copy</button>
+     <pre id="scriptCodeContent">function doPost(e) {
+  try {
+    const lock = LockService.getScriptLock();
+    lock.tryLock(10000);
+    
+    const ss = SpreadsheetApp.openById('1FllBcwBjTr_jfPylhyWwHt6ZE16j6fJpSa0C9hYEw44');
+    let sheet = ss.getSheetByName("Absen Recap");
+    
+    if (!sheet) {
+      lock.releaseLock();
+      return ContentService
+        .createTextOutput(JSON.stringify({success: false, message: "Sheet 'Absen Recap' tidak ditemukan"}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    const data = JSON.parse(e.postData.contents);
+    
+    if (data.workers &amp;&amp; Array.isArray(data.workers)) {
+      const submitDate = data.date;
+      const submitTime = data.time;
+      
+      const targetCol = sheet.getLastColumn() + 1;
+      
+      sheet.getRange(1, targetCol).setValue(submitDate);
+      
+      const dayMatch = submitDate.match(/(\d+)/);
+      const day = dayMatch ? parseInt(dayMatch[1]) : 0;
+      const isGray = day % 2 === 1;
+      
+      if (isGray) {
+        sheet.getRange(1, targetCol).setBackground('#e0e0e0').setFontColor('#000000').setFontWeight('bold');
+      } else {
+        sheet.getRange(1, targetCol).setBackground('#ffffff').setFontColor('#000000').setFontWeight('bold');
+      }
+      
+      sheet.getRange(2, targetCol).setValue(submitTime);
+      sheet.getRange(2, targetCol).setFontWeight('bold');
+      
+      for (const worker of data.workers) {
+        const workerName = worker.name;
+        const status = worker.status;
+        
+        const lastRow = sheet.getLastRow();
+        const workerCol = lastRow &gt;= 3 ? sheet.getRange(3, 1, lastRow - 2, 1).getValues() : [];
+        let targetRow = -1;
+        
+        for (let i = 0; i &lt; workerCol.length; i++) {
+          if (workerCol[i][0] === workerName) {
+            targetRow = i + 3;
+            break;
+          }
+        }
+        
+        if (targetRow === -1) {
+          targetRow = sheet.getLastRow() + 1;
+          sheet.getRange(targetRow, 1).setValue(workerName);
+          sheet.getRange(targetRow, 1).setFontWeight('bold');
+        }
+        
+        const cell = sheet.getRange(targetRow, targetCol);
+        cell.setValue(status);
+        
+        if (status === 'Start Work') {
+          cell.setBackground('#4CAF50').setFontColor('#ffffff').setFontWeight('bold');
+        } else if (status === 'Finish Work') {
+          cell.setBackground('#2196F3').setFontColor('#ffffff').setFontWeight('bold');
+        } else if (status === 'Sakit') {
+          cell.setBackground('#FF9800').setFontColor('#ffffff').setFontWeight('bold');
+        } else if (status === 'Standby') {
+          cell.setBackground('#9C27B0').setFontColor('#ffffff').setFontWeight('bold');
+        } else if (status === 'Belum Absen') {
+          cell.setBackground('#f44336').setFontColor('#ffffff').setFontWeight('bold');
+        }
+      }
+      
+      lock.releaseLock();
+      
+      return ContentService
+        .createTextOutput(JSON.stringify({success: true, message: "Data tersimpan!"}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    lock.releaseLock();
+    return ContentService
+      .createTextOutput(JSON.stringify({success: false, message: "Invalid data format"}))
+      .setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({success: false, message: error.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  try {
+    const ss = SpreadsheetApp.openById('1FllBcwBjTr_jfPylhyWwHt6ZE16j6fJpSa0C9hYEw44');
+    
+    const action = e.parameter.action;
+    
+    if (action === 'recap') {
+      const recapSheet = ss.getSheetByName("Absen Recap");
+      if (!recapSheet) {
+        return ContentService
+          .createTextOutput(JSON.stringify({success: false, message: "Sheet Absen Recap tidak ditemukan"}))
+          .setMimeType(ContentService.MimeType.JSON);
+      }
+      
+      const recapData = recapSheet.getDataRange().getValues();
+      
+      return ContentService
+        .createTextOutput(JSON.stringify({success: true, recap: recapData}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    const formSheet = ss.getSheetByName("Form Responses 1");
+    
+    if (!formSheet) {
+      return ContentService
+        .createTextOutput(JSON.stringify({success: false, message: "Sheet tidak ditemukan"}))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+    
+    const data = formSheet.getDataRange().getValues();
+    const workers = [];
+    
+    for (let i = 1; i &lt; data.length; i++) {
+      if (data[i][1]) {
+        workers.push({
+          name: data[i][1],
+          photo: data[i][2] || ''
+        });
+      }
+    }
+    
+    return ContentService
+      .createTextOutput(JSON.stringify({success: true, workers: workers}))
+      .setMimeType(ContentService.MimeType.JSON);
+    
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({success: false, message: error.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}</pre>
+    </div>
+    <div class="info-block" style="background: #fff3cd; border-left-color: #ff9800;">
+     <h4>⚠️ Penting:</h4>
+     <ul>
+      <li>Pastikan sheet <strong>"Absen Recap"</strong> sudah ada di spreadsheet</li>
+      <li>Format: A1 = Tanggal (header), A2 = Jam (header), A3 dst = Nama pekerja</li>
+      <li>Setiap submit akan <strong>buat kolom baru</strong> (tidak update kolom lama)</li>
+      <li><strong>Status "Belum Absen"</strong> akan diberi blok warna <strong>MERAH</strong></li>
+     </ul>
+    </div>
+    <div class="code-container">
+     <h4>📍 URL Web App Anda:</h4><input type="text" id="webAppUrlInput" placeholder="Paste URL Web App Anda di sini..." style="width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; margin-top: 12px; font-size: 14px;"> <button class="control-button" style="margin-top: 12px; width: 100%;" onclick="saveWebAppUrl()">💾 Simpan URL</button> <button class="control-button" style="margin-top: 12px; width: 100%; background: #2196F3;" onclick="testWebAppConnection()">🔍 Test Connection</button>
+     <div id="testResultBox" style="margin-top: 15px; padding: 15px; border-radius: 8px; display: none;"></div>
+    </div>
+   </div>
+  </div><!-- Recap Menu Page -->
+  <div id="recapMenuPage" class="recap-wrapper">
+   <div class="top-header">
+    <div class="header-left-section"><img src="https://lh3.googleusercontent.com/d/10un5eCNXYwHkgznim3T4lRMwICFWQ8Bw" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+     <div class="main-title" id="mainTitle2">
+      Absen Online Daily Worker
+     </div>
+    </div>
+    <div class="header-right-section">
+     <div class="date-display" id="dateDisplay2"></div>
+     <div class="time-display" id="timeDisplay2"></div>
+    </div>
+   </div>
+   <div class="page-title-section">
+    <div class="page-main-title">
+     Menu Recap Absensi
+    </div>
+   </div>
+   <div class="navigation-buttons"><button class="nav-button" onclick="goBackToMain()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="white" stroke-width="2" stroke-linecap="round" /> <path d="M9 22V12H15V22" stroke="white" stroke-width="2" stroke-linecap="round" />
+     </svg> Back to Home </button>
+   </div>
+   <div class="recap-options-grid">
+    <div class="recap-card" onclick="navigateToTodayRecap()">
+     <svg width="48" height="48" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 10px;"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#667eea" stroke-width="2" /> <line x1="3" y1="9" x2="21" y2="9" stroke="#667eea" stroke-width="2" /> <line x1="8" y1="4" x2="8" y2="9" stroke="#667eea" stroke-width="2" /> <line x1="16" y1="4" x2="16" y2="9" stroke="#667eea" stroke-width="2" />
+     </svg>
+     <h3>Recap Hari Ini</h3>
+     <p>Lihat absensi hari ini</p>
+    </div>
+    <div class="recap-card" onclick="navigateToCalendarRecap()">
+     <svg width="48" height="48" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 10px;"><rect x="3" y="4" width="18" height="18" rx="2" stroke="#667eea" stroke-width="2" /> <line x1="3" y1="9" x2="21" y2="9" stroke="#667eea" stroke-width="2" /> <rect x="7" y="12" width="3" height="3" fill="#667eea" /> <rect x="14" y="12" width="3" height="3" fill="#667eea" />
+     </svg>
+     <h3>Recap Berdasarkan Tanggal</h3>
+     <p>Pilih tanggal untuk melihat recap</p>
+    </div>
+    <div class="recap-card" onclick="navigateToPhotoGallery()">
+     <svg width="48" height="48" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-bottom: 10px;"><rect x="3" y="5" width="18" height="16" rx="2" stroke="#667eea" stroke-width="2" /> <circle cx="12" cy="13" r="3" stroke="#667eea" stroke-width="2" /> <path d="M7 5L8.5 3H15.5L17 5" stroke="#667eea" stroke-width="2" stroke-linecap="round" />
+     </svg>
+     <h3>Foto Absen</h3>
+     <p>Lihat galeri foto absensi</p>
+    </div>
+   </div>
+  </div><!-- Recap Detail Page -->
+  <div id="recapDetailPage" class="recap-wrapper">
+   <div class="top-header">
+    <div class="header-left-section"><img src="https://lh3.googleusercontent.com/d/10un5eCNXYwHkgznim3T4lRMwICFWQ8Bw" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+     <div class="main-title" id="mainTitle3">
+      Absen Online Daily Worker
+     </div>
+    </div>
+    <div class="header-right-section">
+     <div class="date-display" id="dateDisplay3"></div>
+     <div class="time-display" id="timeDisplay3"></div>
+    </div>
+   </div>
+   <div class="page-title-section">
+    <div class="page-main-title" id="recapDetailTitle">
+     Recap Absensi
+    </div>
+   </div>
+   <div class="navigation-buttons"><button class="nav-button" onclick="goBackToMain()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="white" stroke-width="2" stroke-linecap="round" /> <path d="M9 22V12H15V22" stroke="white" stroke-width="2" stroke-linecap="round" />
+     </svg> Back to Home </button> <button class="nav-button" onclick="goBackToRecapMenu()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+     </svg> Kembali </button> <button class="nav-button refresh-style" onclick="refreshRecapTableData()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 10C21 10 18.995 7.26822 17.3662 5.63824C15.7373 4.00827 13.4864 3 11 3C6.02944 3 2 7.02944 2 12C2 16.9706 6.02944 21 11 21C15.1031 21 18.5649 18.2543 19.6482 14.5M21 10V4M21 10H15" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+     </svg> Refresh Data </button>
+   </div>
+   <div class="table-container" id="recapTableBox"></div>
+  </div><!-- Calendar Page -->
+  <div id="calendarPage" class="recap-wrapper">
+   <div class="top-header">
+    <div class="header-left-section"><img src="https://lh3.googleusercontent.com/d/10un5eCNXYwHkgznim3T4lRMwICFWQ8Bw" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+     <div class="main-title" id="mainTitle4">
+      Absen Online Daily Worker
+     </div>
+    </div>
+    <div class="header-right-section">
+     <div class="date-display" id="dateDisplay4"></div>
+     <div class="time-display" id="timeDisplay4"></div>
+    </div>
+   </div>
+   <div class="page-title-section">
+    <div class="page-main-title">
+     Pilih Tanggal
+    </div>
+   </div>
+   <div class="navigation-buttons"><button class="nav-button" onclick="goBackToMain()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="white" stroke-width="2" stroke-linecap="round" /> <path d="M9 22V12H15V22" stroke="white" stroke-width="2" stroke-linecap="round" />
+     </svg> Back to Home </button> <button class="nav-button" onclick="goBackToRecapMenu()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+     </svg> Kembali </button>
+   </div>
+   <div class="calendar-container" id="calendarBox"></div>
+  </div><!-- Photo Gallery Page -->
+  <div id="photoGalleryPage" class="recap-wrapper">
+   <div class="top-header">
+    <div class="header-left-section"><img src="https://lh3.googleusercontent.com/d/10un5eCNXYwHkgznim3T4lRMwICFWQ8Bw" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+     <div class="main-title" id="mainTitle5">
+      Absen Online Daily Worker
+     </div>
+    </div>
+    <div class="header-right-section">
+     <div class="date-display" id="dateDisplay5"></div>
+     <div class="time-display" id="timeDisplay5"></div>
+    </div>
+   </div>
+   <div class="page-title-section">
+    <div class="page-main-title">
+     Galeri Foto Absensi
+    </div>
+   </div>
+   <div class="navigation-buttons"><button class="nav-button" onclick="goBackToMain()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="white" stroke-width="2" stroke-linecap="round" /> <path d="M9 22V12H15V22" stroke="white" stroke-width="2" stroke-linecap="round" />
+     </svg> Back to Home </button> <button class="nav-button" onclick="goBackToRecapMenu()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+     </svg> Kembali </button>
+   </div>
+   <div class="photo-folders-grid" id="photoFoldersBox"></div>
+  </div><!-- Photo Detail Page -->
+  <div id="photoDetailPage" class="recap-wrapper">
+   <div class="top-header">
+    <div class="header-left-section"><img src="https://lh3.googleusercontent.com/d/10un5eCNXYwHkgznim3T4lRMwICFWQ8Bw" alt="Logo" class="logo-img" onerror="this.style.display='none'">
+     <div class="main-title" id="mainTitle6">
+      Absen Online Daily Worker
+     </div>
+    </div>
+    <div class="header-right-section">
+     <div class="date-display" id="dateDisplay6"></div>
+     <div class="time-display" id="timeDisplay6"></div>
+    </div>
+   </div>
+   <div class="page-title-section">
+    <div class="page-main-title" id="photoDetailTitle">
+     Foto Absensi
+    </div>
+   </div>
+   <div class="navigation-buttons"><button class="nav-button" onclick="goBackToMain()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 9L12 2L21 9V20C21 20.5304 20.7893 21.0391 20.4142 21.4142C20.0391 21.7893 19.5304 22 19 22H5C4.46957 22 3.96086 21.7893 3.58579 21.4142C3.21071 21.0391 3 20.5304 3 20V9Z" stroke="white" stroke-width="2" stroke-linecap="round" /> <path d="M9 22V12H15V22" stroke="white" stroke-width="2" stroke-linecap="round" />
+     </svg> Back to Home </button> <button class="nav-button" onclick="goBackToPhotoGallery()">
+     <svg width="18" height="18" viewbox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+     </svg> Kembali </button>
+   </div>
+   <div class="photo-items-grid" id="photoItemsBox"></div>
+  </div>
+  <script>
+    const defaultConfig = {
+      header_title: "Absen Online Daily Worker",
+      login_title: "ABSEN ARCHIPELAGO"
+    };
+
+    let workersData = [];
+    let statusesMap = {};
+    let uploadedPhoto = null;
+    let userLoggedIn = false;
+    let allRecapData = [];
+    
+    let appWebUrl = localStorage.getItem('webAppUrl') || 'https://script.google.com/macros/s/AKfycbx0Q1bSCEtivbGe1d8W40y6M0s_knNDxvZefBAn9UKN0SiCjpL98Xz_1ClCtuhI7xVseg/exec';
+    
+    if (!localStorage.getItem('webAppUrl')) {
+      localStorage.setItem('webAppUrl', appWebUrl);
+    }
+
+    const VALID_USERNAME = "archipelago";
+    const VALID_PASSWORD = "balivibes";
+
+    const dataHandler = {
+      async onDataChanged(data) {
+        console.log("Data changed:", data);
+      }
+    };
+
+    function convertDriveUrl(url) {
+      if (!url) return null;
+      
+      if (url.includes('drive.google.com')) {
+        let fileId = null;
+        
+        if (url.includes('/file/d/')) {
+          fileId = url.split('/file/d/')[1].split('/')[0];
+        }
+        else if (url.includes('open?id=')) {
+          fileId = url.split('open?id=')[1].split('&')[0];
+        }
+        else if (url.includes('uc?id=')) {
+          fileId = url.split('uc?id=')[1].split('&')[0];
+        }
+        
+        if (fileId) {
+          return `https://drive.google.com/thumbnail?id=${fileId}&sz=w400`;
+        }
+      }
+      
+      return url;
+    }
+
+    async function initializeApp() {
+      console.log('🚀 App initialized dengan URL:', appWebUrl);
+      
+      if (window.elementSdk) {
+        await window.elementSdk.init({
+          defaultConfig,
+          onConfigChange: async (config) => {
+            const titleIds = ['mainTitle', 'mainTitle2', 'mainTitle3', 'mainTitle4', 'mainTitle5', 'mainTitle6'];
+            titleIds.forEach(id => {
+              const element = document.getElementById(id);
+              if (element) {
+                element.textContent = config.header_title || defaultConfig.header_title;
+              }
+            });
+            
+            const loginTitleEl = document.getElementById('loginTitle');
+            if (loginTitleEl) {
+              loginTitleEl.textContent = config.login_title || defaultConfig.login_title;
+            }
+          },
+          mapToCapabilities: (config) => ({
+            recolorables: [],
+            borderables: [],
+            fontEditable: undefined,
+            fontSizeable: undefined
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ["header_title", config.header_title || defaultConfig.header_title],
+            ["login_title", config.login_title || defaultConfig.login_title]
+          ])
+        });
+      }
+
+      if (window.dataSdk) {
+        const initResult = await window.dataSdk.init(dataHandler);
+        if (!initResult.isOk) {
+          console.error("Failed to initialize data SDK");
+        }
+      }
+
+      updateAllDateTime();
+      setInterval(updateAllDateTime, 1000);
+
+      document.getElementById('loginForm').addEventListener('submit', handleLoginSubmit);
+      document.getElementById('photoFileInput').addEventListener('change', handlePhotoChange);
+    }
+
+    async function fetchWorkersFromSheet() {
+      console.log('🔵 Loading workers from sheet...');
+      
+      if (appWebUrl) {
+        try {
+          const response = await fetch(appWebUrl + '?action=workers');
+          const result = await response.json();
+          
+          if (result.success && result.workers && result.workers.length > 0) {
+            workersData = result.workers;
+            workersData.sort((a, b) => a.name.localeCompare(b.name, 'id'));
+            console.log('✅ Workers loaded:', workersData.length);
+          } else {
+            console.log('⚠️ No workers in response');
+            workersData = [];
+          }
+        } catch (error) {
+          console.error('🔴 Error loading workers:', error);
+          workersData = [];
+        }
+      }
+
+      statusesMap = {};
+      workersData.forEach(worker => {
+        statusesMap[worker.name] = null;
+      });
+
+      renderWorkersGrid();
+      updateCounter();
+    }
+
+    async function fetchRecapData() {
+      console.log('🔵 Loading recap data...');
+      
+      if (appWebUrl) {
+        try {
+          const response = await fetch(appWebUrl + '?action=recap');
+          const result = await response.json();
+          
+          if (result.success && result.recap) {
+            allRecapData = result.recap;
+            console.log('✅ Recap data loaded:', allRecapData.length, 'rows');
+          } else {
+            console.log('⚠️ No recap data');
+            allRecapData = [];
+          }
+        } catch (error) {
+          console.error('🔴 Error loading recap:', error);
+          allRecapData = [];
+        }
+      }
+    }
+
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorDiv = document.getElementById('loginError');
+
+      errorDiv.textContent = '';
+
+      if (username === VALID_USERNAME && password === VALID_PASSWORD) {
+        userLoggedIn = true;
+        
+        document.getElementById('loginPage').style.display = 'none';
+        const mainApp = document.getElementById('mainApp');
+        mainApp.style.display = 'block';
+        mainApp.classList.add('active');
+        
+        document.getElementById('loadingScreen').style.display = 'flex';
+        
+        await Promise.all([
+          fetchWorkersFromSheet(),
+          fetchRecapData()
+        ]);
+        
+        document.getElementById('loadingScreen').style.display = 'none';
+        
+        if (workersData.length > 0) {
+          showNotification(`✅ Berhasil! ${workersData.length} pekerja dimuat`, '#4CAF50');
+        }
+      } else {
+        errorDiv.textContent = 'Username atau password salah!';
+      }
+    }
+
+    function hideAllPages() {
+      document.getElementById('mainApp').style.display = 'none';
+      document.getElementById('mainApp').classList.remove('active');
+      document.getElementById('recapMenuPage').style.display = 'none';
+      document.getElementById('recapMenuPage').classList.remove('active');
+      document.getElementById('recapDetailPage').style.display = 'none';
+      document.getElementById('recapDetailPage').classList.remove('active');
+      document.getElementById('calendarPage').style.display = 'none';
+      document.getElementById('calendarPage').classList.remove('active');
+      document.getElementById('photoGalleryPage').style.display = 'none';
+      document.getElementById('photoGalleryPage').classList.remove('active');
+      document.getElementById('photoDetailPage').style.display = 'none';
+      document.getElementById('photoDetailPage').classList.remove('active');
+    }
+
+    function renderWorkersGrid() {
+      const grid = document.getElementById('workersGrid');
+      grid.innerHTML = '';
+
+      if (workersData.length === 0) {
+        grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 40px; color: white; background: rgba(255,255,255,0.1); border-radius: 15px;">Belum ada data pekerja. Silakan setup Web App URL terlebih dahulu.</div>';
+        return;
+      }
+
+      workersData.forEach(worker => {
+        const item = document.createElement('div');
+        item.className = 'worker-item';
+        if (statusesMap[worker.name]) {
+          item.classList.add('highlighted');
+        }
+
+        const photoConverted = convertDriveUrl(worker.photo);
+        
+        const photoSrc = photoConverted || 
+          'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"%3E%3Ccircle cx="50" cy="50" r="50" fill="%23667eea"/%3E%3Ctext x="50" y="60" text-anchor="middle" fill="white" font-size="40" font-weight="bold"%3E' + 
+          worker.name.charAt(0) + '%3C/text%3E%3C/svg%3E';
+
+        const fallbackSvg = 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2250%22 fill=%22%23667eea%22/%3E%3Ctext x=%2250%22 y=%2260%22 text-anchor=%22middle%22 fill=%22white%22 font-size=%2240%22 font-weight=%22bold%22%3E' + worker.name.charAt(0) + '%3C/text%3E%3C/svg%3E';
+
+        const currentStatus = statusesMap[worker.name]?.status || 'Belum dipilih';
+        
+        item.innerHTML = `
+          <div class="left-col">
+            <img src="${photoSrc}" alt="${worker.name}" class="worker-avatar" onerror="this.src='${fallbackSvg}'">
+            <div class="worker-fullname">${worker.name}</div>
+          </div>
+          <div class="right-col">
+            <div class="status-box">
+              <div class="status-text">${currentStatus}</div>
+            </div>
+            <div class="buttons-grid">
+              <button class="status-action-btn start-btn ${statusesMap[worker.name]?.status === 'Start Work' ? 'selected' : ''}" 
+                      onclick="assignStatus('${worker.name.replace(/'/g, "\\'")}', 'Start Work', '${(photoConverted || '').replace(/'/g, "\\'")}')">Start Work</button>
+              <button class="status-action-btn finish-btn ${statusesMap[worker.name]?.status === 'Finish Work' ? 'selected' : ''}" 
+                      onclick="assignStatus('${worker.name.replace(/'/g, "\\'")}', 'Finish Work', '${(photoConverted || '').replace(/'/g, "\\'")}')">Finish Work</button>
+              <button class="status-action-btn sick-btn ${statusesMap[worker.name]?.status === 'Sakit' ? 'selected' : ''}" 
+                      onclick="assignStatus('${worker.name.replace(/'/g, "\\'")}', 'Sakit', '${(photoConverted || '').replace(/'/g, "\\'")}')">Sakit</button>
+              <button class="status-action-btn standby-btn ${statusesMap[worker.name]?.status === 'Standby' ? 'selected' : ''}" 
+                      onclick="assignStatus('${worker.name.replace(/'/g, "\\'")}', 'Standby', '${(photoConverted || '').replace(/'/g, "\\'")}')">Standby</button>
+            </div>
+          </div>
+        `;
+
+        grid.appendChild(item);
+      });
+    }
+
+    function updateCounter() {
+      const selectedCount = Object.values(statusesMap).filter(status => status !== null).length;
+      const unselectedCount = workersData.length - selectedCount;
+      
+      document.getElementById('counter-selected').textContent = selectedCount;
+      document.getElementById('counter-unselected').textContent = unselectedCount;
+    }
+
+    function assignStatus(workerName, status, workerPhoto) {
+      // Jika status yang diklik sama dengan status yang sudah dipilih, maka unclick (reset)
+      if (statusesMap[workerName]?.status === status) {
+        statusesMap[workerName] = null;
+      } else {
+        // Jika berbeda atau belum ada status, set status baru
+        statusesMap[workerName] = { status, photo: workerPhoto };
+      }
+      
+      renderWorkersGrid();
+      updateCounter();
+      document.getElementById('searchInput').value = '';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setAllPresent() {
+      workersData.forEach(worker => {
+        const photoConverted = convertDriveUrl(worker.photo);
+        statusesMap[worker.name] = { status: 'Start Work', photo: photoConverted || '' };
+      });
+      renderWorkersGrid();
+      updateCounter();
+    }
+
+    function resetAllData() {
+      workersData.forEach(worker => {
+        statusesMap[worker.name] = null;
+      });
+      uploadedPhoto = null;
+      document.getElementById('photoFileInput').value = '';
+      document.getElementById('photoPreview').innerHTML = '';
+      renderWorkersGrid();
+      updateCounter();
+    }
+
+    function performSearch() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const items = document.querySelectorAll('.worker-item');
+
+      items.forEach(item => {
+        const name = item.querySelector('.worker-fullname').textContent.toLowerCase();
+        if (name.includes(searchTerm)) {
+          item.style.display = 'grid';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    function handlePhotoChange(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          uploadedPhoto = event.target.result;
+          document.getElementById('photoPreview').innerHTML = `
+            <img src="${uploadedPhoto}" style="max-width: 200px; border-radius: 10px; margin-top: 10px;">
+          `;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    async function performSubmit() {
+      const submitBtn = document.getElementById('submitButton');
+
+      if (!appWebUrl) {
+        showNotification('❌ Web App URL belum disetup! Klik Setup Script.', '#f44336');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '⚡ Mengirim...';
+
+      const now = new Date();
+      const currentDate = now.toLocaleDateString('id-ID', { 
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+      const currentTime = now.toLocaleTimeString('id-ID', {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      });
+
+      const workersToSubmit = [];
+      for (const [workerName, statusData] of Object.entries(statusesMap)) {
+        if (statusData) {
+          workersToSubmit.push({
+            name: workerName,
+            status: statusData.status,
+            photo: statusData.photo || ''
+          });
+        } else {
+          const worker = workersData.find(w => w.name === workerName);
+          const photoConverted = worker ? convertDriveUrl(worker.photo) : '';
+          workersToSubmit.push({
+            name: workerName,
+            status: 'Belum Absen',
+            photo: photoConverted || ''
+          });
+        }
+      }
+
+      const batchData = {
+        workers: workersToSubmit,
+        date: currentDate,
+        time: currentTime,
+        photo_url: uploadedPhoto || ''
+      };
+
+      showNotification(`⚡ <strong>TERKIRIM!</strong> ${workersToSubmit.length} absensi sedang disimpan...`, '#4CAF50');
+      
+      submitBtn.innerHTML = `
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 9L11 13" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Kirim Absensi
+      `;
+      submitBtn.disabled = false;
+
+      resetAllData();
+
+      setTimeout(async () => {
+        try {
+          const promises = [];
+          
+          promises.push(
+            fetch(appWebUrl, {
+              method: 'POST',
+              headers: { 'Content-Type': 'text/plain' },
+              body: JSON.stringify(batchData)
+            }).then(response => response.json())
+          );
+
+          if (window.dataSdk) {
+            const dataSdkPromises = workersToSubmit.map(worker => {
+              const record = {
+                worker_name: worker.name,
+                status: worker.status,
+                date: currentDate,
+                time: currentTime,
+                photo_url: uploadedPhoto || '',
+                worker_photo: worker.photo || ''
+              };
+              return window.dataSdk.create(record);
+            });
+            promises.push(Promise.all(dataSdkPromises));
+          }
+
+          await Promise.all(promises);
+          console.log('✅ Data tersimpan di background');
+          
+        } catch (error) {
+          console.error('❌ Background save failed:', error);
+        }
+      }, 100);
+    }
+
+    function showNotification(message, bgColor) {
+      const notifBox = document.getElementById('notificationBox');
+      notifBox.style.display = 'block';
+      notifBox.style.background = bgColor;
+      notifBox.innerHTML = message;
+      setTimeout(() => {
+        notifBox.style.display = 'none';
+      }, 3000);
+    }
+
+    function updateAllDateTime() {
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('id-ID', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+      const timeStr = now.toLocaleTimeString('id-ID');
+      
+      const offset = -now.getTimezoneOffset() / 60;
+      let timezone = 'WIB';
+      if (offset === 8) timezone = 'WITA';
+      else if (offset === 9) timezone = 'WIT';
+      else if (offset === 7) timezone = 'WIB';
+
+      const dateIds = ['dateDisplay', 'dateDisplay2', 'dateDisplay3', 'dateDisplay4', 'dateDisplay5', 'dateDisplay6'];
+      const timeIds = ['timeDisplay', 'timeDisplay2', 'timeDisplay3', 'timeDisplay4', 'timeDisplay5', 'timeDisplay6'];
+      
+      dateIds.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) element.textContent = dateStr;
+      });
+      
+      timeIds.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.innerHTML = `${timeStr} <span class="timezone-label">${timezone}</span>`;
+        }
+      });
+    }
+
+    function openSetupModal() {
+      document.getElementById('setupModal').style.display = 'block';
+      if (appWebUrl) {
+        document.getElementById('webAppUrlInput').value = appWebUrl;
+      }
+    }
+
+    function closeSetupModal() {
+      document.getElementById('setupModal').style.display = 'none';
+    }
+
+    function copyScriptCode() {
+      const scriptCode = document.getElementById('scriptCodeContent').textContent;
+      const copyBtn = document.querySelector('.copy-code-btn');
+      const originalText = copyBtn.textContent;
+      
+      const textArea = document.createElement('textarea');
+      textArea.value = scriptCode;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        textArea.remove();
+        copyBtn.textContent = '✅ Copied!';
+        setTimeout(() => {
+          copyBtn.textContent = originalText;
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy');
+        textArea.remove();
+      }
+    }
+
+    async function saveWebAppUrl() {
+      const url = document.getElementById('webAppUrlInput').value.trim();
+      if (url) {
+        appWebUrl = url;
+        localStorage.setItem('webAppUrl', url);
+        console.log('✅ URL tersimpan:', url);
+        
+        showNotification('✅ URL berhasil disimpan! Memuat data pekerja...', '#4CAF50');
+        
+        closeSetupModal();
+        
+        await fetchWorkersFromSheet();
+      } else {
+        showNotification('❌ Mohon masukkan URL Web App!', '#f44336');
+      }
+    }
+
+    async function testWebAppConnection() {
+      const url = document.getElementById('webAppUrlInput').value.trim();
+      const testResult = document.getElementById('testResultBox');
+      
+      if (!url) {
+        testResult.style.display = 'block';
+        testResult.style.background = '#f44336';
+        testResult.style.color = 'white';
+        testResult.innerHTML = '❌ Mohon masukkan URL Web App terlebih dahulu!';
+        return;
+      }
+
+      testResult.style.display = 'block';
+      testResult.style.background = '#2196F3';
+      testResult.style.color = 'white';
+      testResult.innerHTML = '🔄 Testing connection...';
+
+      try {
+        const response = await fetch(url + '?action=workers');
+        const result = await response.json();
+        
+        if (result.success) {
+          testResult.style.background = '#4CAF50';
+          testResult.innerHTML = `
+            <div style="font-weight: bold; margin-bottom: 10px;">✅ Koneksi Berhasil!</div>
+            <div><strong>Jumlah Pekerja:</strong> ${result.workers ? result.workers.length : 0}</div>
+          `;
+        } else {
+          testResult.style.background = '#ff9800';
+          testResult.innerHTML = `
+            <div style="font-weight: bold; margin-bottom: 10px;">���️ Koneksi Berhasil, Tapi...</div>
+            <div>${result.message || 'Tidak ada data pekerja'}</div>
+          `;
+        }
+      } catch (error) {
+        testResult.style.background = '#f44336';
+        testResult.innerHTML = `
+          <div style="font-weight: bold; margin-bottom: 10px;">�� Koneksi Gagal!</div>
+          <div>${error.message}</div>
+        `;
+      }
+    }
+
+    function navigateToRecap() {
+      hideAllPages();
+      const recapMenu = document.getElementById('recapMenuPage');
+      recapMenu.style.display = 'block';
+      recapMenu.classList.add('active');
+    }
+
+    async function navigateToTodayRecap() {
+      hideAllPages();
+      const recapDetail = document.getElementById('recapDetailPage');
+      recapDetail.style.display = 'block';
+      recapDetail.classList.add('active');
+      
+      const today = new Date();
+      const todayStr = today.toLocaleDateString('id-ID', { 
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+      
+      document.getElementById('recapDetailTitle').textContent = `Recap Absensi - ${todayStr}`;
+      
+      buildRecapTable(todayStr);
+    }
+
+    function navigateToCalendarRecap() {
+      hideAllPages();
+      const calendarPg = document.getElementById('calendarPage');
+      calendarPg.style.display = 'block';
+      calendarPg.classList.add('active');
+      buildCalendar();
+    }
+
+    function navigateToPhotoGallery() {
+      hideAllPages();
+      const photoPg = document.getElementById('photoGalleryPage');
+      photoPg.style.display = 'block';
+      photoPg.classList.add('active');
+      loadPhotoFolders();
+    }
+
+    function goBackToMain() {
+      hideAllPages();
+      const mainApp = document.getElementById('mainApp');
+      mainApp.style.display = 'block';
+      mainApp.classList.add('active');
+    }
+
+    function goBackToRecapMenu() {
+      hideAllPages();
+      const recapMenu = document.getElementById('recapMenuPage');
+      recapMenu.style.display = 'block';
+      recapMenu.classList.add('active');
+    }
+
+    function goBackToPhotoGallery() {
+      hideAllPages();
+      const photoPg = document.getElementById('photoGalleryPage');
+      photoPg.style.display = 'block';
+      photoPg.classList.add('active');
+    }
+
+    async function refreshRecapTableData() {
+      const container = document.getElementById('recapTableBox');
+      const originalHTML = container.innerHTML;
+      
+      container.innerHTML = `
+        <div style="text-align: center; padding: 60px;">
+          <div class="spinner-animation" style="margin: 0 auto 20px;"></div>
+          <p style="color: #333; font-size: 18px; font-weight: bold;">🔄 Memuat data terbaru...</p>
+        </div>
+      `;
+      
+      try {
+        await fetchRecapData();
+        
+        const titleElement = document.getElementById('recapDetailTitle');
+        const titleText = titleElement.textContent;
+        const dateMatch = titleText.match(/Recap Absensi - (.+)/);
+        const currentFilter = dateMatch ? dateMatch[1] : null;
+        
+        buildRecapTable(currentFilter);
+        
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          top: 100px;
+          right: 20px;
+          background: #4CAF50;
+          color: white;
+          padding: 20px 30px;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          z-index: 9999;
+          font-weight: bold;
+          font-size: 16px;
+        `;
+        notification.innerHTML = '✅ Data berhasil diperbarui!';
+        document.body.appendChild(notification);
+        
+        setTimeout(() => notification.remove(), 2000);
+        
+      } catch (error) {
+        console.error('❌ Error refreshing data:', error);
+        
+        container.innerHTML = originalHTML;
+        
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          top: 100px;
+          right: 20px;
+          background: #f44336;
+          color: white;
+          padding: 20px 30px;
+          border-radius: 10px;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+          z-index: 9999;
+          font-weight: bold;
+          font-size: 16px;
+        `;
+        notification.innerHTML = '❌ Gagal memuat data. Coba lagi!';
+        document.body.appendChild(notification);
+        
+        setTimeout(() => notification.remove(), 3000);
+      }
+    }
+
+    function buildRecapTable(filterDate = null) {
+      const container = document.getElementById('recapTableBox');
+      
+      console.log('🔍 Rendering recap table...');
+      console.log('📊 allRecapData length:', allRecapData ? allRecapData.length : 0);
+      console.log('🎯 filterDate:', filterDate);
+      
+      if (!allRecapData || allRecapData.length < 3) {
+        container.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Belum ada data recap. Pastikan sheet "Absen Recap" sudah terisi.</p>';
+        return;
+      }
+
+      const dateRow = allRecapData[0] || [];
+      const timeRow = allRecapData[1] || [];
+      
+      console.log('📅 Date row:', dateRow);
+      console.log('⏰ Time row:', timeRow);
+      
+      let columnsToShow = [];
+      for (let col = 1; col < dateRow.length; col++) {
+        const dateValue = dateRow[col];
+        if (dateValue) {
+          if (filterDate) {
+            let cellDateFormatted = '';
+            
+            if (typeof dateValue === 'string' && dateValue.includes('T')) {
+              const dateObj = new Date(dateValue);
+              cellDateFormatted = dateObj.toLocaleDateString('id-ID', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+              });
+            } else {
+              cellDateFormatted = dateValue.toString();
+            }
+            
+            const cellDate = cellDateFormatted.toLowerCase().trim();
+            const targetDate = filterDate.toLowerCase().trim();
+            
+            console.log(`������ Comparing: "${cellDate}" vs "${targetDate}"`);
+            
+            if (cellDate === targetDate) {
+              columnsToShow.push(col);
+              console.log(`✅ Match found at column ${col}`);
+            }
+          } else {
+            columnsToShow.push(col);
+          }
+        }
+      }
+      
+      console.log('📋 Columns to show:', columnsToShow);
+      
+      if (columnsToShow.length === 0) {
+        container.innerHTML = `
+          <div style="background: white; padding: 30px; border-radius: 15px; text-align: center;">
+            <p style="color: #666; font-size: 18px; margin-bottom: 15px;">❌ Tidak ada data absensi untuk tanggal yang dipilih.</p>
+            <p style="color: #999; font-size: 14px;">Filter: <strong>${filterDate}</strong></p>
+            <button class="control-button" style="margin-top: 20px;" onclick="buildRecapTable(null)">Tampilkan Semua Data</button>
+          </div>
+        `;
+        return;
+      }
+
+      let tableHTML = '<table><thead>';
+      
+      tableHTML += '<tr>';
+      tableHTML += '<th rowspan="2" style="position: sticky; left: 0; z-index: 20; background: #667eea; vertical-align: middle;">Nama Pekerja</th>';
+      
+      for (const col of columnsToShow) {
+        const dateValue = dateRow[col];
+        
+        let displayDate = '';
+        if (typeof dateValue === 'string' && dateValue.includes('T')) {
+          const dateObj = new Date(dateValue);
+          displayDate = dateObj.toLocaleDateString('id-ID', {
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+          });
+        } else {
+          displayDate = dateValue.toString();
+        }
+        
+        const dayMatch = displayDate.match(/(\d+)/);
+        const day = dayMatch ? parseInt(dayMatch[1]) : col;
+        const isGray = day % 2 === 1;
+        
+        const headerClass = isGray ? 'gray-header' : '';
+        tableHTML += `<th class="${headerClass}">${displayDate}</th>`;
+      }
+      tableHTML += '</tr>';
+      
+      tableHTML += '<tr>';
+      for (const col of columnsToShow) {
+        let timeValue = timeRow[col] || '-';
+        
+        if (typeof timeValue === 'string' && timeValue.includes('T')) {
+          try {
+            const dateObj = new Date(timeValue);
+            const hours = String(dateObj.getUTCHours()).padStart(2, '0');
+            const minutes = String(dateObj.getUTCMinutes()).padStart(2, '0');
+            const seconds = String(dateObj.getUTCSeconds()).padStart(2, '0');
+            timeValue = `${hours}.${minutes}.${seconds}`;
+          } catch (e) {
+            console.error('Error parsing time:', e);
+          }
+        }
+        
+        tableHTML += `<th style="background: #667eea; font-weight: normal; font-size: 12px;">${timeValue}</th>`;
+      }
+      tableHTML += '</tr>';
+      
+      tableHTML += '</thead><tbody>';
+      
+      for (let row = 2; row < allRecapData.length; row++) {
+        const workerName = allRecapData[row][0];
+        if (!workerName) continue;
+        
+        tableHTML += '<tr>';
+        tableHTML += `<td class="name-cell">${workerName}</td>`;
+        
+        for (const col of columnsToShow) {
+          const status = allRecapData[row][col] || '';
+          let statusClass = '';
+          let displayText = status || 'Belum Absen';
+          
+          if (status === 'Start Work') {
+            statusClass = 'cell-start';
+          } else if (status === 'Finish Work') {
+            statusClass = 'cell-finish';
+          } else if (status === 'Sakit') {
+            statusClass = 'cell-sick';
+          } else if (status === 'Standby') {
+            statusClass = 'cell-standby';
+          } else if (status === 'Belum Absen') {
+            statusClass = 'cell-absent';
+          } else if (!status) {
+            statusClass = 'cell-absent';
+          }
+          
+          tableHTML += `<td class="${statusClass}">${displayText}</td>`;
+        }
+        
+        tableHTML += '</tr>';
+      }
+      
+      tableHTML += '</tbody></table>';
+      
+      container.innerHTML = tableHTML;
+      console.log('✅ Table rendered successfully!');
+    }
+
+    function buildCalendar() {
+      const grid = document.getElementById('calendarBox');
+      grid.innerHTML = '';
+
+      const daysOfWeek = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
+      daysOfWeek.forEach(day => {
+        const dayHeader = document.createElement('div');
+        dayHeader.style.fontWeight = 'bold';
+        dayHeader.style.textAlign = 'center';
+        dayHeader.style.fontSize = '16px';
+        dayHeader.textContent = day;
+        grid.appendChild(dayHeader);
+      });
+
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+      for (let i = 0; i < firstDay; i++) {
+        const emptyDay = document.createElement('div');
+        grid.appendChild(emptyDay);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-cell';
+        dayElement.textContent = day;
+        dayElement.onclick = () => showDateRecapDetail(year, month, day);
+        grid.appendChild(dayElement);
+      }
+    }
+
+    async function showDateRecapDetail(year, month, day) {
+      hideAllPages();
+      const recapDetail = document.getElementById('recapDetailPage');
+      recapDetail.style.display = 'block';
+      recapDetail.classList.add('active');
+      
+      const selectedDate = new Date(year, month, day);
+      const dateStr = selectedDate.toLocaleDateString('id-ID', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+      
+      document.getElementById('recapDetailTitle').textContent = `Recap Absensi - ${dateStr}`;
+      
+      buildRecapTable(dateStr);
+    }
+
+    function loadPhotoFolders() {
+      const container = document.getElementById('photoFoldersBox');
+      container.innerHTML = '<p style="text-align: center; padding: 40px; color: #666;">Fitur galeri foto dalam pengembangan.</p>';
+    }
+
+    function showPhotoDetail(date) {
+      hideAllPages();
+      const photoDetail = document.getElementById('photoDetailPage');
+      photoDetail.style.display = 'block';
+      photoDetail.classList.add('active');
+      
+      document.getElementById('photoDetailTitle').textContent = `Foto Absensi - ${date}`;
+      
+      const grid = document.getElementById('photoItemsBox');
+      grid.innerHTML = '<div style="text-align: center; padding: 40px; color: #666;">Belum ada foto untuk tanggal ini</div>';
+    }
+
+    window.onclick = function(event) {
+      const modal = document.getElementById('setupModal');
+      if (event.target === modal) {
+        closeSetupModal();
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', initializeApp);
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9ba0ade555f97a69',t:'MTc2Nzc1OTgwMS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
